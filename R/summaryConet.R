@@ -4,7 +4,7 @@
 #' summaryConet(x)
 #' @export
 summaryConet <- function(x){
-  data.frame(min = min(x),
+  tibble(min = min(x),
              max = max(x),
              med = median(X))
 }
