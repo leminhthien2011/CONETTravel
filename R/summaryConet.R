@@ -6,5 +6,5 @@
 summaryConet <- function(x){
   data.frame(min = min(x),
              max = max(x),
-             med = median(X))
+             med = median(x))
 }
