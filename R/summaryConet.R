@@ -6,5 +6,5 @@
 summaryConet <- function(x){
   tibble(min = min(x),
              max = max(x),
-             med = median(X))
+             med = median(x))
 }
