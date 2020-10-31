@@ -10,8 +10,4 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-<<<<<<< HEAD
 Imports: tibble
-=======
-Imports: tidyverse, tibble
->>>>>>> 904a5fa339a45d6b7e92ed37ba6aecc77536b54a
