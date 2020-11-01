@@ -1,5 +1,5 @@
 #' This gives travel out compartment from 1 country to another
-#' @param total total travel out
+#' @param total total travelers out
 #' @param country a list include data of A,R,D sequence, population pop, infect
 #' @export
 

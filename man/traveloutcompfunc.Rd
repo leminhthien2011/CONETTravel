@@ -7,7 +7,7 @@
 traveloutcompfunc(total, country)
 }
 \arguments{
-\item{total}{total travel out}
+\item{total}{total travelers out}
 
 \item{country}{a list include data of A,R,D sequence, population pop, infect}
 }
