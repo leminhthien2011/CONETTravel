@@ -2,7 +2,7 @@
 % Please edit documentation in R/descriptive.R
 \name{summaryConet}
 \alias{summaryConet}
-\title{This gives descriptive stat}
+\title{This gives descriptive stat as tibble}
 \usage{
 summaryConet(x)
 }
@@ -10,7 +10,7 @@ summaryConet(x)
 \item{x}{numeric vector}
 }
 \description{
-This gives descriptive stat
+This gives descriptive stat as tibble
 }
 \examples{
 x = 1:9
