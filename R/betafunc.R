@@ -1,0 +1,20 @@
+#' This gives estimation for beta
+#' @param data data of A,R,D sequence
+#' @export
+betafunc = function(data){
+  drecover_sim = data[,2] - c(0,data[,2][-length(data[,2])])
+  active_sim = c(1,data[,1][-length(data[,1])])
+
+  index5 = which(active_sim==0)
+  index6 = c(1,index5)
+  drecover_sim = drecover_sim[-index6]
+  active_sim = active_sim[-index6]
+  betas_sim = drecover_sim/active_sim
+  ########This help to avoid empty array
+  if (length(betas_sim) == 0){betas_sim = 10^8}
+  ###########
+
+
+  return(betas_sim)
+
+}
