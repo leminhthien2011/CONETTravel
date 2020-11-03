@@ -2,7 +2,7 @@
 % Please edit documentation in R/deltafunc.R
 \name{deltafunc}
 \alias{deltafunc}
-\title{This gives estimation for delta}
+\title{This gives estimation for delta hehe}
 \usage{
 deltafunc(data)
 }
@@ -10,5 +10,5 @@ deltafunc(data)
 \item{data}{data of A,R,D sequence}
 }
 \description{
-This gives estimation for delta
+This gives estimation for delta hehe
 }
