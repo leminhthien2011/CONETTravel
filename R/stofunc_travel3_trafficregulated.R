@@ -7,7 +7,7 @@
 #' @importFrom stats rpois
 #' @export
 
-detfunc_travel3_trafficregulated =  function(combinetheta, inp){
+stofunc_travel3_trafficregulated =  function(combinetheta, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
