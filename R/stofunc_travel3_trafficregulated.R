@@ -1,10 +1,45 @@
-#' This function gives stochastic realization for 3 countries with shutdown percent strategy
+#' This function gives stochastic realization for 3 countries for a given regulated strategy
 #' @param combinetheta parameter
 #' @param inp is a list include duration : durationtravel (number of days),
 #' travelregulated: a list of matrix travel allowed from 1 country to another during the duration,
 #' ini: initial compartments of countries)
 #' @return  The average realization of 3 countries with travel data regulated
 #' @importFrom stats rpois
+#' @examples
+#' \dontrun{
+#' library(CONETTravel)
+#' library(matrixcalc)
+#' P1 = 10^7
+#' I1 = 250
+#' A1 = 130
+#' S1 = P1 - I1 - A1
+#' x1 = c(S1,I1,A1,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
+#' P2 = 3*10^6
+#' I2 = 20
+#' A2 = 10
+#' S2 = P2 - I2 - A2
+#' x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
+#' P3 = 2*10^6
+#' I3 = 15
+#' A3 = 15
+#' S3 = P3 - I3 - A3
+#' x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
+#' initial_corona = c(x1,x2,x3) #initial condition of 3 countries
+#' P = c(P1, P2, P3) #population 3 countries
+#' k = 13
+#' theta0 = as.numeric(thetas_3travel[[k]]) #choose a combo of theta
+#' traveloutdat = travelout_3dat
+#' ratein = 1 # policy that allows full rate of travel in
+#' r12= rep(ratein,nrow(traveloutdat))
+#' r13= rep(ratein,nrow(traveloutdat))
+#' r21= rep(ratein,nrow(traveloutdat))
+#' r23= rep(ratein,nrow(traveloutdat))
+#' r31= rep(ratein,nrow(traveloutdat))
+#' r32= rep(ratein,nrow(traveloutdat))
+#' policy = list(rate12 = r12, rate13 = r13, rate21 = r21, rate23 = r23, rate31 = r31, rate32 = r32)
+#' traveloutDivideRegulated =  totaltravelout_regulated(traveloutdat, policy, P) #total travelers regulated
+#' inp = list(duration = nrow(traveloutdat), travelregulated = traveloutDivideRegulated, ini = initial_corona )
+#' stofunc_travel3_trafficregulated(theta0,inp)}
 #' @export
 
 stofunc_travel3_trafficregulated =  function(combinetheta, inp){
