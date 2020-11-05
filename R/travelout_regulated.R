@@ -1,5 +1,6 @@
 #' This gives a list of travel data allowed from 1 country to another for a given travel policy
 #' @param traveloutdat is the data of travel out from each country without pandemic
+#' @param P vector population of countries in order as travel data
 #' @param policy is a list of policy of rate 12 country 1 let country 2 in during the duration travel
 #' rate 13 country 1 let country 3 in, rate 21 country 2 let country 1 in, rate 23 country 2 let country 3 in,
 #' rate 31 country 3 let country 1 in, rate 32 country 3 let country 2 in
@@ -8,7 +9,7 @@
 #' @export
 
 
-travelout_regulated =  function(traveloutdat,policy){
+travelout_regulated =  function(traveloutdat,policy, P){
 ##Construct a divide list travel out
 numberCountries = ncol(traveloutdat)
 
@@ -35,8 +36,8 @@ for (j in 1:nrow(traveloutdat)){
   ##Take product for proportion
   promat = popmat*denommat^(-1)
   diag(promat) = 0
-  # Take Hadamard product for actual number 
-  traveloutDivide[[j]] = round(hadamard.prod(promat, travelmat), digits=0)
+  # Take Hadamard product for actual number
+  traveloutDivide[[j]] = hadamard.prod(promat, travelmat)
 }
 
 
@@ -64,16 +65,16 @@ for(i in 1:durationtravel){
   tmp =  matrix(0,nrow = numberCountries, ncol = numberCountries)
   tmp = matrix(policymat[,i], nrow = numberCountries, ncol = numberCountries)
   policymatlist[[i]] = tmp
-  
+
 }
 
 ############Matrix travel when percentage of travel in regulated
 traveloutDivideRegulated = list()
 for (i in 1:nrow(traveloutdat)){
-  
+
   tmp1 = as.matrix(traveloutDivide[[i]])
   tmp2 = as.matrix(policymatlist[[i]])
-  
+
   traveloutDivideRegulated[[i]] = round(hadamard.prod(tmp1, tmp2), digits=0)
 }
 

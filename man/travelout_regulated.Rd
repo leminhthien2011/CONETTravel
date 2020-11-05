@@ -4,7 +4,7 @@
 \alias{travelout_regulated}
 \title{This gives a list of travel data allowed from 1 country to another for a given travel policy}
 \usage{
-travelout_regulated(traveloutdat, policy)
+travelout_regulated(traveloutdat, policy, P)
 }
 \arguments{
 \item{traveloutdat}{is the data of travel out from each country without pandemic}
@@ -12,6 +12,8 @@ travelout_regulated(traveloutdat, policy)
 \item{policy}{is a list of policy of rate 12 country 1 let country 2 in during the duration travel
 rate 13 country 1 let country 3 in, rate 21 country 2 let country 1 in, rate 23 country 2 let country 3 in,
 rate 31 country 3 let country 1 in, rate 32 country 3 let country 2 in}
+
+\item{P}{vector population of countries in order as travel data}
 }
 \value{
 A list of number travelers can go from 1 country to another each day during the duration
