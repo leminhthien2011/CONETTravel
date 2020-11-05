@@ -1,15 +1,34 @@
-#' This gives a list of total travel data allowed from 1 country to another for a given travel policy
+#' This function gives a list of total travel data allowed from 1 country to another for a given travel policy
 #' @param traveloutdat is the data of travel out from each country without pandemic
 #' @param P vector population of countries in order as travel data
 #' @param policy is a list of policy of rate 12 country 1 let country 2 in during the duration travel
 #' rate 13 country 1 let country 3 in, rate 21 country 2 let country 1 in, rate 23 country 2 let country 3 in,
 #' rate 31 country 3 let country 1 in, rate 32 country 3 let country 2 in
 #' @return  A list of number travelers can go from 1 country to another each day during the duration
+#' @examples
+#' \dontrun{
+#' P1 = 10^7
+#' P2 = 3*10^6
+#' P3 = 2*10^6
+#' P = c(P1, P2, P3) #population of 3 countries
+#' traveloutdat = travelout_3dat
+#' ratein = 1 # policy that allows full rate of travel in
+#' r12= rep(ratein,nrow(traveloutdat))
+#' r13= rep(ratein,nrow(traveloutdat))
+#' r21= rep(ratein,nrow(traveloutdat))
+#' r23= rep(ratein,nrow(traveloutdat))
+#' r31= rep(ratein,nrow(traveloutdat))
+#' r32= rep(ratein,nrow(traveloutdat))
+#' policy = list(rate12 = r12, rate13 = r13, rate21 = r21, rate23 = r23, rate31 = r31, rate32 = r32)
+#' totaltravelout_regulated(traveloutdat, policy, P)
+#' }
+
+
 #' @import matrixcalc
 #' @export
 
 
-travelout_regulated =  function(traveloutdat,policy, P){
+totaltravelout_regulated =  function(traveloutdat,policy, P){
 ##Construct a divide list travel out
 numberCountries = ncol(traveloutdat)
 
