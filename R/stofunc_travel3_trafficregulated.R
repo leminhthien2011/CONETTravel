@@ -1,4 +1,4 @@
-#' This gives stochastic realization for 3 countries with shutdown percent strategy
+#' This function gives stochastic realization for 3 countries with shutdown percent strategy
 #' @param combinetheta parameter
 #' @param inp is a list include duration : durationtravel (number of days),
 #' travelregulated: a list of matrix travel allowed from 1 country to another during the duration,

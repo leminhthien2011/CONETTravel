@@ -2,7 +2,7 @@
 % Please edit documentation in R/stofunc_travel3_trafficregulated.R
 \name{stofunc_travel3_trafficregulated}
 \alias{stofunc_travel3_trafficregulated}
-\title{This gives stochastic realization for 3 countries with shutdown percent strategy}
+\title{This function gives stochastic realization for 3 countries with shutdown percent strategy}
 \usage{
 stofunc_travel3_trafficregulated(combinetheta, inp)
 }
@@ -17,5 +17,5 @@ ini: initial compartments of countries)}
 The average realization of 3 countries with travel data regulated
 }
 \description{
-This gives stochastic realization for 3 countries with shutdown percent strategy
+This function gives stochastic realization for 3 countries with shutdown percent strategy
 }
