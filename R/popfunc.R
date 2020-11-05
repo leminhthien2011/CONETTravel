@@ -1,5 +1,6 @@
 #' This gives estimation for the dynamic population
-#' @param country list include total travel in and out each day total_in, total_out, duration nrep, population P
+#' @param country list include total travel in and out each day total_in,
+#' total_out, duration nrep, population P
 #' @export
 
 popfunc = function(country){

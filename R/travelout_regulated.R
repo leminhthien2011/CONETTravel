@@ -1,4 +1,4 @@
-#' This gives a list of travel data allowed from 1 country to another for a given travel policy
+#' This gives a list of total travel data allowed from 1 country to another for a given travel policy
 #' @param traveloutdat is the data of travel out from each country without pandemic
 #' @param P vector population of countries in order as travel data
 #' @param policy is a list of policy of rate 12 country 1 let country 2 in during the duration travel

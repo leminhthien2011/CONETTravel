@@ -1,11 +1,13 @@
-#' This gives stochastic realization for 3 countries
-#' @param ini initial conditions
-#' @param thetas parameter
-#' @param travel travel data
-#' @param d duration travel
+#' This gives stochastic realization for 3 countries with shutdown percent strategy
+#' @param combinetheta parameter
+#' @param inp is a list include duration : durationtravel (number of days),
+#' travelregulated: a list of matrix travel allowed from 1 country to another during the duration,
+#' ini: initial compartments of countries)
+#' @return  The average realization of 3 countries with travel data regulated
 #' @importFrom stats rpois
 #' @export
-stofunc_travel3 =  function(ini, thetas , travel, d){
+
+detfunc_travel3_trafficregulated =  function(combinetheta, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
@@ -42,26 +44,25 @@ stofunc_travel3 =  function(ini, thetas , travel, d){
   ##############
 
 
-
-
-  status_matrix = matrix(0, nrow = d,ncol = length(ini))
-
-  f_in = matrix(0, nrow = d,ncol = length(ini))
-  f_in
-  f_out = matrix(0, nrow = d, ncol = length(ini))
-  status_matrix[1,] = ini
+  status_matrix = matrix(0, nrow = inp$duration,ncol = length(inp$ini))
+  f_in = matrix(0, nrow =  inp$duration,ncol = length(inp$ini))
+  f_out = matrix(0, nrow =  inp$duration, ncol = length(inp$ini))
+  status_matrix[1,] = inp$ini
 
 
 
-  for (i in 2:d){
-    for (j in 1:3){
+  for (i in 2: inp$duration){
+    traveloutregulated = as.matrix(inp$travelregulated[[i]])
+    totaltravelout = rowSums(traveloutregulated)
+
+    for (j in 1:nrow(traveloutregulated)){
 
       c1 = (j-1)*6 + 1
       c2 = j*6
       x = status_matrix[(i-1),c1:c2]
       ##Updated traveling flow
       #Number out from country j
-      out = travel[i,j]
+      out = totaltravelout[j]
       if (x[1]+x[2] > 0){
         outj = c(round(out*x[1]/(x[1]+x[2]),digits=0), round(out*x[2]/(x[1]+x[2]),digits=0), 0,0,0,0)
         #########
@@ -69,7 +70,7 @@ stofunc_travel3 =  function(ini, thetas , travel, d){
       }
       #travel out from country i with sick and susceptible
 
-      theta = thetas[c1:c2]
+      theta = combinetheta[c1:c2]
       ##Generating Poisson values based on hazard functions
       y1 = rpois(1, harzard1(x,theta))
       #
@@ -130,20 +131,31 @@ stofunc_travel3 =  function(ini, thetas , travel, d){
 
     }
 
+    ##Construct matrix out of compartments for 3 countries
 
+    f_outmat = matrix(0, nrow = nrow(traveloutregulated), ncol = length(inp$ini) )
 
-    ######################No regulation ####
-    P1 = sum(ini[1:6])
-    P2 = sum(ini[7:12])
-    P3 = sum(ini[13:18])
+    for (val in 1:nrow(traveloutregulated)){
+      d1 = (val-1)*6 + 1
+      d2 = val*6
+      f_outtotal = f_out[i,][d1:d2]
 
+      for (val1 in 1:nrow(traveloutregulated)){
+        e1 = (val1 -1)*6 + 1
+        e2 = val1*6
+        f_outmat[val,e1:e2] = f_outtotal*traveloutregulated[val,val1]/sum(traveloutregulated[val,])
+      }
+    }
 
-    f_in1 = f_out[i,7:12]*P1/(P1 + P3) + f_out[i,13:18]*P1/(P1+P2)
-    f_in2 = f_out[i,1:6]*P2/(P2+P3) + f_out[i,13:18]*P2/(P1+P2)
-    f_in3 = f_out[i,1:6]*P3/(P2+P3) + f_out[i,7:12]*P3/(P1+P3)
+    ##Construct matrix in of compartments for 3 countries
+    for (val2 in 1:nrow(traveloutregulated)){
+      f1 = (val2 -1)*6 + 1
+      f2 = val2*6
+      f_in[i, f1:f2] = colSums(f_outmat[,f1:f2])
 
+    }
 
-    f_in[i,] = c(round(f_in1,digits = 0), round(f_in2,digits=0), round(f_in3,digits=0))
+    f_in[i,] = round(f_in[i,], digits=0)
     ########
     update = status_matrix[i,]  +  f_in[i,] - f_out[i,]
     update[update<0.1]=0
@@ -152,6 +164,5 @@ stofunc_travel3 =  function(ini, thetas , travel, d){
   }
   return(status_matrix)
 }
-
 
 

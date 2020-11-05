@@ -2,7 +2,7 @@
 % Please edit documentation in R/travelout_regulated.R
 \name{travelout_regulated}
 \alias{travelout_regulated}
-\title{This gives a list of travel data allowed from 1 country to another for a given travel policy}
+\title{This gives a list of total travel data allowed from 1 country to another for a given travel policy}
 \usage{
 travelout_regulated(traveloutdat, policy, P)
 }
@@ -19,5 +19,5 @@ rate 31 country 3 let country 1 in, rate 32 country 3 let country 2 in}
 A list of number travelers can go from 1 country to another each day during the duration
 }
 \description{
-This gives a list of travel data allowed from 1 country to another for a given travel policy
+This gives a list of total travel data allowed from 1 country to another for a given travel policy
 }

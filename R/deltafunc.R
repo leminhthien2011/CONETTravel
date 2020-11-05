@@ -1,4 +1,4 @@
-#' This gives estimation for delta hehe
+#' This gives estimation for delta
 #' @param data data of A,R,D sequence
 #' @export
 deltafunc = function(data){

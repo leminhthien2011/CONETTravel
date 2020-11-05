@@ -7,7 +7,8 @@
 popfunc(country)
 }
 \arguments{
-\item{country}{list include total travel in and out each day total_in, total_out, duration nrep, population P}
+\item{country}{list include total travel in and out each day total_in,
+total_out, duration nrep, population P}
 }
 \description{
 This gives estimation for the dynamic population
