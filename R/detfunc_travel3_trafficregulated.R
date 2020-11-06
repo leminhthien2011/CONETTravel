@@ -103,7 +103,11 @@ detfunc_travel3_trafficregulated =  function(combinetheta, inp){
         outj = c(round(out*x[1]/(x[1]+x[2]),digits=0), round(out*x[2]/(x[1]+x[2]),digits=0), 0,0,0,0)
         #########
         f_out[i,c1:c2] = outj
+      }else{
+
+        f_out[i,c1:c2] = c(out, 0,0,0,0,0)
       }
+
       #travel out from country i with sick and susceptible
 
       theta = combinetheta[c1:c2]
@@ -179,8 +183,13 @@ detfunc_travel3_trafficregulated =  function(combinetheta, inp){
       for (val1 in 1:nrow(traveloutregulated)){
         e1 = (val1 -1)*6 + 1
         e2 = val1*6
-        f_outmat[val,e1:e2] = f_outtotal*traveloutregulated[val,val1]/sum(traveloutregulated[val,])
-      }
+        if(sum(traveloutregulated[val,])>0){
+          f_outmat[val,e1:e2] = f_outtotal*traveloutregulated[val,val1]/sum(traveloutregulated[val,])
+        }else{
+          f_outmat[val,e1:e2] = rep(0,6)
+        }
+
+        }
     }
 
     ##Construct matrix in of compartments for 3 countries
