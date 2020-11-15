@@ -1,15 +1,15 @@
 #' This gives the average realization of 1 given country for a given A,R,D sequence
-#' @param country is a list include data of A,R,D, pop,and infect
+#' @param country is a list include data of A,R,D, populationdynamic,and infect
 #' @param theta parameter
 #' @export
 recoverfunc = function(country, theta){
 
   data = country$data
-  pop = country$pop
+  pop = country$populationdynamic
 
   beta = theta[3]
 
-  Ut = data[,1] + data[,2] + data[,3]
+  Ut = rowSums(data)
   #Difference Ut
   dUt = c(diff(Ut, differences = 1),0)
   ########

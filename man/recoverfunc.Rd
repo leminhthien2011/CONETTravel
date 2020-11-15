@@ -7,7 +7,7 @@
 recoverfunc(country, theta)
 }
 \arguments{
-\item{country}{is a list include data of A,R,D, pop,and infect}
+\item{country}{is a list include data of A,R,D, populationdynamic,and infect}
 
 \item{theta}{parameter}
 }
