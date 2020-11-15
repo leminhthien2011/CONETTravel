@@ -11,7 +11,7 @@ alphafunc = function(data,country){
   #Difference Ut
   dUt = c(diff(Ut, differences = 1),0)
   ########
-  recovermat = matrix(0,nrow = nr,ncol=6)
+  recovermat = matrix(0,nrow = nrow(data),ncol=6)
 
   infected = country$infect
 
