@@ -9,8 +9,8 @@ stofunc_marginalestimate(theta, country)
 \arguments{
 \item{theta}{parameter}
 
-\item{country}{is a list include durationtravel : number of days, travel in compartments,
-travel out compartments each day, and x_ini: initial compartments of the country}
+\item{country}{is a list include durationtravel : number of days, travel in compartments each day,
+total_out each day, and x_ini: initial compartments of the country}
 }
 \value{
 The realization of the country during the period take into account of travel
