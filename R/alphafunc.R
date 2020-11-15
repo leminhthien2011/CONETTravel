@@ -38,7 +38,7 @@ alphafunc = function(data,country){
   Sseq_p = rep(0, nrow(data))
 
   for (i in 1:nrow(data)){
-    Sseq_p[i] = Sseq[i] - country$travelin_compartments[i,1] + inp$travelout_compartments[i,1]
+    Sseq_p[i] = Sseq[i] - country$travelin_compartments[i,1] + country$travelout_compartments[i,1]
   }
   ######S+ and Spre sequence for alpha
   Splus_al = Sseq[-c(nrow(data)-1, nrow(data))]
