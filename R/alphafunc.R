@@ -1,22 +1,23 @@
 #' This gives estimation of alpha
 #' @param data data of A,R,D
-#' @param inp a list include beta estimation based on data, infect, pop, travelin, travelout
+#' @param country a list include betas estimation based on data, infect,
+#' populationdynamic, travelin_compartments, travelout_compartments
 #' @export
-alphafunc = function(data,inp){
+alphafunc = function(data,country){
 
-  nr = nrow(data)
-  beta = median(inp$beta)
+
+  beta = median(country$betas)
   Ut = rowSums(data)
   #Difference Ut
   dUt = c(diff(Ut, differences = 1),0)
   ########
   recovermat = matrix(0,nrow = nr,ncol=6)
 
-  infected = inp$infect
+  infected = country$infect
 
-  dRus = rep(0,nr)
+  dRus = rep(0,nrow(data))
 
-  for (i in 1:nr){
+  for (i in 1:nrow(data)){
 
     dRus[i] = dUt[i]*beta
 
@@ -28,27 +29,27 @@ alphafunc = function(data,inp){
   Ruseq = c(0,Ruseq1[-length(Ruseq1)])
 
 
-  Sseq = inp$pop - Ut - Ruseq - infected
+  Sseq = country$populationdynamic - Ut - Ruseq - infected
 
 
   SIseq = Sseq*infected
 
   #########Construct dSseq
-  Sseq_p = rep(0, nr)
+  Sseq_p = rep(0, nrow(data))
 
-  for (i in 1:nr){
-    Sseq_p[i] = Sseq[i] - inp$travelin[i,1] + inp$travelout[i,1]
+  for (i in 1:nrow(data)){
+    Sseq_p[i] = Sseq[i] - country$travelin_compartments[i,1] + inp$travelout_compartments[i,1]
   }
   ######S+ and Spre sequence for alpha
-  Splus_al = Sseq[-c(nr-1, nr)]
+  Splus_al = Sseq[-c(nrow(data)-1, nrow(data))]
 
-  Spre_al = Sseq_p[-c(1,nr)]
+  Spre_al = Sseq_p[-c(1,nrow(data))]
 
   dSseq_al = Splus_al - Spre_al
 
-  SIseq_al = SIseq[-c(nr-1, nr)]
+  SIseq_al = SIseq[-c(nrow(data)-1, nrow(data))]
 
-  pop_al = inp$pop[-c(nr-1, nr)]
+  pop_al = country$populationdynamic[-c(nrow(data)-1, nrow(data))]
 
 
   #####Remove 0s in the denom

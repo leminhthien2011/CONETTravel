@@ -4,12 +4,13 @@
 \alias{alphafunc}
 \title{This gives estimation of alpha}
 \usage{
-alphafunc(data, inp)
+alphafunc(data, country)
 }
 \arguments{
 \item{data}{data of A,R,D}
 
-\item{inp}{a list include beta estimation based on data, infect, pop, travelin, travelout}
+\item{country}{a list include betas estimation based on data, infect,
+populationdynamic, travelin_compartments, travelout_compartments}
 }
 \description{
 This gives estimation of alpha
