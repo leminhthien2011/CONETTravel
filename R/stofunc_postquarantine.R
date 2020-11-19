@@ -1,7 +1,8 @@
-#' This function gives deterministic compartments at the last day quarantine for a given parameter and an initial condition
+#' This function gives stochastic compartments after completed quarantine for a given parameter and an initial compartments
 #' @param theta parameter
-#' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
-#' @return  The average status of arrivals compartments after complete quarantine
+#' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrivals
+#' @return  The stochastic status of arrivals compartments after complete quarantine
+#' @importFrom stats rpois
 #' @examples
 #' \dontrun{## Initial Condition
 #' S1 = 900
@@ -11,12 +12,14 @@
 #' days= 14
 #' inp = list(durationquarantine = days, ini = x1)
 #' theta0 = c(0,0,1/14,3/100,1,.5)
-#' detfunc_quarantine(theta0,inp)}
+#' stofunc_postquarantine(theta0,inp)}
 #' @export
 
 
-detfunc_quarantine = function(theta,inp){
-  n1 = 2 + inp$durationquarantine #adjust for 0 and 1
+
+
+stofunc_postquarantine = function(theta,inp){
+  n1 = 2 + inp$durationquarantine # Adjust for 0 and 1
   status_matrix = matrix(0,nrow = n1, ncol=6)
   status_matrix[1,] = inp$ini
 
@@ -52,13 +55,13 @@ detfunc_quarantine = function(theta,inp){
 
 
     #
-    y2 =  harzard2(x,theta)
+    y2 =  rpois(1, harzard2(x,theta))
     #
-    y3 =  harzard3(x,theta)
+    y3 =  rpois(1, harzard3(x,theta))
     #
-    y4 =  harzard4(x,theta)
+    y4 =  rpois(1, harzard4(x,theta))
     #
-    y5 =  harzard5(x,theta)
+    y5 =  rpois(1, harzard5(x,theta))
 
     #######Infect
     if(x[2] - y2 - y5 >= 0){
@@ -97,8 +100,8 @@ detfunc_quarantine = function(theta,inp){
 
     status_matrix[i,] = x
   }
-  n2 = n1 -1 # shiftback 1 to get the status of the last day in quarantine
-  lastdayquarantine = status_matrix[n2,]
+  n2 = n1-1
+  lastdayquarantine = status_matrix[n2, ]
   lastdayquarantine = round(lastdayquarantine,digits=0)
   return(lastdayquarantine)
 }

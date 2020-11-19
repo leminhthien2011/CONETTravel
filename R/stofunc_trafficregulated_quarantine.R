@@ -1,9 +1,9 @@
 #' This function gives stochastic realization for n countries with a given regulated strategy and quarantine
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
-#' durationquarantine : number of days people have to quarantine
+#' durationquarantine : number of days people have to quarantine,
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
-#' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row
+#' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
 #' @importFrom stats rpois
 #' @return  The stochastic realization of n countries with travel data regulated
@@ -273,7 +273,7 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine
-      f_in_donequarantine[i1,a1:a2] = stofunc_quarantine(theta1,inp1)
+      f_in_donequarantine[i1,a1:a2] = stofunc_postquarantine(theta1,inp1)
 
     }
 

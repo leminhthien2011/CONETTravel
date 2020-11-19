@@ -10,9 +10,9 @@ detfunc_trafficregulated_quarantine(thetamatrix, inp)
 \item{thetamatrix}{is a matrix of parameters, parameters of each country is on 1 row}
 
 \item{inp}{is a list include durationtravel : durationtravel (days),
-durationquarantine : number of days people have to quarantine
+durationquarantine : number of days people have to quarantine,
 travelregulated: a list of travel allowed from 1 country to another during the duration,
-initialmatrix is a matrix of initial compartments of countries, each country is on 1 row
+initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 quarantinerate is the rate people follow quarantine}
 }
 \value{
