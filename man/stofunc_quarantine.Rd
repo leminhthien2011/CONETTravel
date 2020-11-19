@@ -2,7 +2,7 @@
 % Please edit documentation in R/stofunc_quarantine.R
 \name{stofunc_quarantine}
 \alias{stofunc_quarantine}
-\title{This function gives deterministic compartments at the last day quarantine for a given parameter and an initial condition}
+\title{This function gives stochastic compartments at the last day quarantine for a given parameter and an initial condition}
 \usage{
 stofunc_quarantine(theta, inp)
 }
@@ -15,7 +15,7 @@ stofunc_quarantine(theta, inp)
 The stochastic status of arrivals compartments after complete quarantine
 }
 \description{
-This function gives deterministic compartments at the last day quarantine for a given parameter and an initial condition
+This function gives stochastic compartments at the last day quarantine for a given parameter and an initial condition
 }
 \examples{
 \dontrun{## Initial Condition
