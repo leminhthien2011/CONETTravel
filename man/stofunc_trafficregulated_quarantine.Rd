@@ -23,7 +23,34 @@ This function gives stochastic realization for n countries with a given regulate
 }
 \examples{
 \dontrun{
+#Example 1: 3 countries
 library(CONETTravel)
+P1 = 10^7
+I1 = 250
+A1 = 130
+S1 = P1 - I1 - A1
+x1 = c(S1,I1,A1,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
+P2 = 3*10^6
+I2 = 20
+A2 = 10
+S2 = P2 - I2 - A2
+x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
+P3 = 2*10^6
+I3 = 15
+A3 = 15
+S3 = P3 - I3 - A3
+x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 3
+travelout_data = travelout_3dat
+initial_corona = as.matrix(rbind(x1,x2,x3) )#initial conditions of 3 countries
+P = c(P1, P2, P3) #population 3 countries
+k = 13
+theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][13:18])
+ratein = 1 # policy that allows full rate of travel in
+traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
+inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
+         initialmatrix = initial_corona, quarantinerate = 1, durationquarantine = 14)
+stofunc_trafficregulated_quarantine(theta0, inp)
+#Example 2: 6 countries
 P1 = 10^7
 I1 = 250
 A1 = 130
