@@ -5,8 +5,8 @@
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row
 #' quarantinerate is the rate people follow quarantine
-#'
-#' @return  The stochastic realization of n countries with travel data regulated and quarantine
+#' @importFrom stats rpois
+#' @return  The stochastic realization of n countries with travel data regulated
 
 #' @examples
 #' \dontrun{
@@ -76,15 +76,17 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
   }
   ##############
   numbercountries = nrow(inp$initialmatrix)
-  numbercompartments = ncol(inp$initialmatrix)
-  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*numbercompartments)
-  f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*numbercompartments)
-  f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*numbercompartments)
+  compartments = ncol(inp$initialmatrix)
+  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*compartments)
+
+  f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
+  f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
+
   totalduration = inp$durationtravel + inp$durationquarantine
-  f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*numbercompartments) # Create a matrix to contain quarantine once done
+  f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*compartments) # Create a matrix to contain quarantine once done
 
 
-  initial = rep(0, numbercountries*numbercompartments)
+  initial = rep(0, numbercountries*compartments)
 
   for(val3 in 1:numbercountries){
     h1 = 1 + (val3 - 1)*6
@@ -124,7 +126,7 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       ##Generating Poisson values based on hazard functions
       y1 =  rpois(1, harzard1(x,theta))
       #
-      y2 =   rpois(1, harzard2(x,theta))
+      y2 =  rpois(1, harzard2(x,theta))
       #
       y3 = rpois(1, harzard3(x,theta))
       #
@@ -183,7 +185,7 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
 
     ##Construct matrix out of compartments for 3 countries
 
-    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries*ncol(inp$initial_corona) )
+    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries*compartments )
 
     for (val in 1:numbercountries){
       d1 = (val-1)*6 + 1
@@ -193,9 +195,9 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       #Distribute number of infectious from country val to other countries
 
       infect_outtotal = f_out[i,][d3]# total infect go out from country i
-      probdistribute = rep(0,numbercountries)
+      probdistribute = rep(0,nrow(traveloutregulated))
 
-      for (val6 in 1:numbercountries){
+      for (val6 in 1:nrow(traveloutregulated)){
         if(sum(traveloutregulated[val,])>0){
           probdistribute[val6] = traveloutregulated[val,val6]/sum(traveloutregulated[val,])
         }else{
@@ -243,7 +245,7 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine
-      f_in_donequarantine[i1,a1:a2] = stofunc_quarantine(theta1,inp1)
+      f_in_donequarantine[i1,a1:a2] = detfunc_quarantine(theta1,inp1)
 
     }
 

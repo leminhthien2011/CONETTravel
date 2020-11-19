@@ -76,15 +76,17 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
   }
   ##############
   numbercountries = nrow(inp$initialmatrix)
-  numbercompartments = ncol(inp$initialmatrix)
-  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*numbercompartments)
-  f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*numbercompartments)
-  f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*numbercompartments)
+  compartments = ncol(inp$initialmatrix)
+  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*compartments)
+
+  f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
+  f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
+
   totalduration = inp$durationtravel + inp$durationquarantine
-  f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*numbercompartments) # Create a matrix to contain quarantine once done
+  f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*compartments) # Create a matrix to contain quarantine once done
 
 
-  initial = rep(0, numbercountries*numbercompartments)
+  initial = rep(0, numbercountries*compartments)
 
   for(val3 in 1:numbercountries){
     h1 = 1 + (val3 - 1)*6
@@ -183,7 +185,7 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
 
     ##Construct matrix out of compartments for 3 countries
 
-    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries*ncol(inp$initial_corona) )
+    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries*compartments )
 
     for (val in 1:numbercountries){
       d1 = (val-1)*6 + 1
@@ -193,9 +195,9 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       #Distribute number of infectious from country val to other countries
 
       infect_outtotal = f_out[i,][d3]# total infect go out from country i
-      probdistribute = rep(0,numbercountries)
+      probdistribute = rep(0,nrow(traveloutregulated))
 
-      for (val6 in 1:numbercountries){
+      for (val6 in 1:nrow(traveloutregulated)){
         if(sum(traveloutregulated[val,])>0){
           probdistribute[val6] = traveloutregulated[val,val6]/sum(traveloutregulated[val,])
         }else{
@@ -218,7 +220,7 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
           #Adjust susceptible of average out by using infect_outdistribute
           suseptible = tmp[1] + tmp[2] - infect_outdistribute[val1]
           #f_outmat[val,e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
-          f_outmat[val,e1:e2] = tmp # First keep it to make everything fixed
+          f_outmat[val,e1:e2] = tmp # Keep at the average rate for reprocibility
         }else{
           f_outmat[val,e1:e2] = rep(0,6)
         }

@@ -16,7 +16,7 @@ initialmatrix is a matrix of initial compartments of countries, each country is 
 quarantinerate is the rate people follow quarantine}
 }
 \value{
-The stochastic realization of n countries with travel data regulated and quarantine
+The stochastic realization of n countries with travel data regulated
 }
 \description{
 This function gives stochastic realization for n countries with a given regulated strategy and quarantine
