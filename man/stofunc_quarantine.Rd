@@ -9,10 +9,10 @@ stofunc_quarantine(theta, inp)
 \arguments{
 \item{theta}{parameter}
 
-\item{inp}{is a list include durationquarantine : number of days and ini: initial compartments of the country}
+\item{inp}{is a list include durationquarantine : number of days and ini: initial compartments of arrivals}
 }
 \value{
-The average realization of the country during the period
+The stochastic status of arrivals compartments after complete quarantine
 }
 \description{
 This function gives deterministic compartments at the last day quarantine for a given parameter and an initial condition

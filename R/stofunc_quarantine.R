@@ -1,7 +1,7 @@
 #' This function gives deterministic compartments at the last day quarantine for a given parameter and an initial condition
 #' @param theta parameter
-#' @param inp is a list include durationquarantine : number of days and ini: initial compartments of the country
-#' @return  The average realization of the country during the period
+#' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrivals
+#' @return  The stochastic status of arrivals compartments after complete quarantine
 #' @importFrom stats rpois
 #' @examples
 #' \dontrun{## Initial Condition
@@ -19,7 +19,8 @@
 
 
 stofunc_quarantine = function(theta,inp){
-  status_matrix = matrix(0,nrow = inp$durationquarantine, ncol=6)
+  n1 = 2 + inp$durationquarantine # Adjust for 0 and 1
+  status_matrix = matrix(0,nrow = n1, ncol=6)
   status_matrix[1,] = inp$ini
 
 
@@ -48,7 +49,7 @@ stofunc_quarantine = function(theta,inp){
     return(h5)
   }
 
-  for (i in 2:inp$durationquarantine){
+  for (i in 2:n1){
 
     x = status_matrix[(i-1),]
 
@@ -99,7 +100,8 @@ stofunc_quarantine = function(theta,inp){
 
     status_matrix[i,] = x
   }
-  lastdayquarantine = status_matrix[inp$durationquarantine,]
+  n2 = n1-1
+  lastdayquarantine = status_matrix[n2, ]
   lastdayquarantine = round(lastdayquarantine,digits=0)
   return(lastdayquarantine)
 }
