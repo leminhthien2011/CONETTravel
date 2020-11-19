@@ -15,10 +15,8 @@
 #' @export
 
 
-
-
 detfunc_quarantine = function(theta,inp){
-  n1 = 2 + inp$durationquarantine
+  n1 = 2 + inp$durationquarantine #adjust for 0 and 1
   status_matrix = matrix(0,nrow = n1, ncol=6)
   status_matrix[1,] = inp$ini
 
