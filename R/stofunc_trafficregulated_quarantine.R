@@ -273,7 +273,7 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
       inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine
-      f_in_donequarantine[i1,a1:a2] = detfunc_quarantine(theta1,inp1)
+      f_in_donequarantine[i1,a1:a2] = stofunc_quarantine(theta1,inp1)
 
     }
 
