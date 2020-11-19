@@ -269,7 +269,8 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
     for( qua in 1:numbercountries){
       a1 = 1 + (qua-1)*6
       a2 = 6 + (qua-1)*6
-      inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
+      quarantineinp = inp$quarantinerate*f_in[i,a1:a2]
+      inp1 = list(durationquarantine = inp$durationquarantine, ini = quarantineinp )
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine
       f_in_donequarantine[i1,a1:a2] = detfunc_quarantine(theta1,inp1)
