@@ -109,7 +109,7 @@ detfunc_trafficregulated_quarantine =  function(thetamatrix, inp){
   f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
   f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
 
-  totalduration = inp$durationtravel + inp$durationquarantine
+  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedin)
   f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*compartments) # Create a matrix to contain quarantine once done
 
 
