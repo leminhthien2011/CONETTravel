@@ -36,14 +36,14 @@
 #'  traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
 #'  inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
 #'            initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedin = c(14,14,14))
-#'  detfunc_trafficregulated_quarantine_adjustedin(theta0, inp)
+#'  detfunc_trafficregulated_adjustedin_quarantine(theta0, inp)
 
 #' }
 
 #' @export
 
 
-detfunc_trafficregulated_quarantine_adjustedin =  function(thetamatrix, inp){
+detfunc_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
@@ -85,7 +85,7 @@ detfunc_trafficregulated_quarantine_adjustedin =  function(thetamatrix, inp){
   f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
   f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
 
-  totalduration = inp$durationtravel + inp$durationquarantine
+  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedin)
   f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*compartments) # Create a matrix to contain quarantine once done
 
 
