@@ -1,8 +1,7 @@
-#' This gives a stochastic realization for a given parameter and initial condition
+#' This gives deterministic realization for a given parameter and initial condition
 #' @param theta parameter
 #' @param inp is a list include duration : number of days and ini: initial compartments of the country
 #' @return  The average realization of the country during the period
-#' @importFrom stats rpois
 #' @examples
 #' \dontrun{## Initial Condition
 #' P1 = 10^7
@@ -14,10 +13,10 @@
 #' inp = list(duration =days, ini = x1)
 #' k= 1
 #' theta0 = as.numeric(thetas_3travel[[k]][1:6])
-#' stochastic_1country(theta0,inp)}
+#' deterministicmodel_1country(theta0,inp)}
 #' @export
 
-stochastic_1country = function(theta,inp){
+deterministicmodel_1country = function(theta,inp){
   status_matrix = matrix(0,nrow = inp$duration,ncol=6)
   status_matrix[1,] = inp$ini
 
@@ -57,15 +56,15 @@ stochastic_1country = function(theta,inp){
 
     x = status_matrix[(i-1),]
 
-    y1 = rpois(1, harzard1(x,theta))
+    y1 =  harzard1(x,theta)
     #
-    y2 =  rpois(1, harzard2(x,theta))
+    y2 =  harzard2(x,theta)
     #
-    y3 = rpois(1, harzard3(x,theta))
+    y3 =  harzard3(x,theta)
     #
-    y4 =  rpois(1, harzard4(x,theta))
+    y4 =  harzard4(x,theta)
     #
-    y5 = rpois(1, harzard5(x,theta))
+    y5 =  harzard5(x,theta)
 
 
 

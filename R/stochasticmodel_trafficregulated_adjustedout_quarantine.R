@@ -37,14 +37,14 @@
 #'  traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
 #'  inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
 #'            initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
-#'  stochastic_trafficregulated_adjustedout_quarantine(theta0, inp)
+#'  stochasticmodel_trafficregulated_adjustedout_quarantine(theta0, inp)
 
 #' }
 
 #' @export
 
 
-stochastic_trafficregulated_adjustedout_quarantine =  function(thetamatrix, inp){
+stochasticmodel_trafficregulated_adjustedout_quarantine =  function(thetamatrix, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)

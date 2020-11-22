@@ -1,17 +1,17 @@
-#' This function gives stochastic realization for n countries with a given regulated
-#' strategy and quarantine duration that each destination country required for all other countries entered it's authority
+#' This function gives stochastic realization for n countries with a given regulated strategy and quarantine
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
-#'  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,
+#' durationquarantine : number of days people have to quarantine,
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
 #' @importFrom stats rpois
-#' @importFrom stats rmultinom
-#' @return  The stochastic realization of n countries with travel data regulated and quarantine in
+#' @return  The stochastic realization of n countries with travel data regulated
 
 #' @examples
 #' \dontrun{
+
+#' #Example 1: 3 countries
 #' library(CONETTravel)
 #' P1 = 10^7
 #' I1 = 250
@@ -21,30 +21,54 @@
 #' P2 = 3*10^6
 #' I2 = 20
 #' A2 = 10
-#'  S2 = P2 - I2 - A2
-#'  x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
-#'  P3 = 2*10^6
+#' S2 = P2 - I2 - A2
+#' x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
+#' P3 = 2*10^6
 #' I3 = 15
 #' A3 = 15
 #' S3 = P3 - I3 - A3
-#'  x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 3
-#'  travelout_data = travelout_3dat
-#'  initial_corona = as.matrix(rbind(x1,x2,x3) )#initial conditions of 3 countries
-#'  P = c(P1, P2, P3) #population 3 countries
-#'  k = 13
-#'  theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][13:18])
-#'  ratein = 1 # policy that allows full rate of travel in
-#'  traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
-#'  inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
-#'            initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedin = c(14,14,14))
-#'  stochastic_trafficregulated_adjustedin_quarantine(theta0, inp)
+#' x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 3
+#' travelout_data = travelout_3dat
+#' initial_corona = as.matrix(rbind(x1,x2,x3) )#initial conditions of 3 countries
+#' P = c(P1, P2, P3) #population 3 countries
+#' k = 13
+#' theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][13:18])
+#' ratein = 1 # policy that allows full rate of travel in
+#' traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
+#' inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
+#'          initialmatrix = initial_corona, quarantinerate = 1, durationquarantine = 14)
+#' stofunc_trafficregulated_quarantine(theta0, inp)
 
+#' #Example 2: 6 countries
+#' P1 = 10^7
+#' I1 = 250
+#' A1 = 130
+#' S1 = P1 - I1 - A1
+#' x1 = c(S1,I1,A1,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
+#' P2 = 3*10^6
+#' I2 = 20
+#' A2 = 10
+#' S2 = P2 - I2 - A2
+#' x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
+
+#' initial_corona = as.matrix(rbind(x1,x2,x1,x2,x1,x2) )#initial conditions of 6 countries
+#' P = c(P1, P2, P1, P2, P1, P2) #population 6 countries
+#' k = 13
+#' theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12] ) #choose a combo of theta
+
+#' travelout_data = cbind(travelout_3dat, travelout_3dat)
+
+#' ratein = 1 # policy that allows full rate of travel in
+#' traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
+
+#' inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
+#'           initialmatrix = initial_corona, quarantinerate = 1, durationquarantine = 14)
+#' stochasticmodel_trafficregulated_quarantine(theta0, inp)
 #' }
 
 #' @export
 
-
-stochastic_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
+stochasticmodel_trafficregulated_quarantine =  function(thetamatrix, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
@@ -86,7 +110,7 @@ stochastic_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
   f_in = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
   f_out = matrix(0, nrow =  inp$durationtravel, ncol = numbercountries*compartments)
 
-  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedin)
+  totalduration = inp$durationtravel + inp$durationquarantine
   f_in_donequarantine =  matrix(0, nrow = totalduration ,ncol = numbercountries*compartments) # Create a matrix to contain quarantine once done
 
 
@@ -137,7 +161,7 @@ stochastic_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
       y4 =  rpois(1, harzard4(x,theta))
       #
       y5 = rpois(1, harzard5(x,theta))
-      #
+
 
 
       ##Susceptible
@@ -246,11 +270,10 @@ stochastic_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
     for( qua in 1:numbercountries){
       a1 = 1 + (qua-1)*6
       a2 = 6 + (qua-1)*6
-      quarantineinp = inp$quarantinerate*f_in[i,a1:a2]
-      inp1 = list(durationquarantine = inp$durationquarantine_adjustedin[qua], ini = quarantineinp )
+      inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
       theta1 = thetamatrix[qua,]
-      i1 = i + inp$durationquarantine_adjustedin[qua]
-      f_in_donequarantine[i1,a1:a2] = stochastic_postquarantine(theta1,inp1)
+      i1 = i + inp$durationquarantine
+      f_in_donequarantine[i1,a1:a2] = stofunc_postquarantine(theta1,inp1)
 
     }
 
