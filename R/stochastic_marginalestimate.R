@@ -7,7 +7,7 @@
 #' @export
 
 ###
-stofunc_marginalestimate =  function(theta,country){
+stochastic_marginalestimate =  function(theta,country){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)

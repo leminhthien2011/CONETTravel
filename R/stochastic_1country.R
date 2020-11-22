@@ -1,25 +1,32 @@
-#' This function gives deterministic compartments after completed quarantine for a given parameter and an initial compartments
+#' This gives a stochastic realization for a given parameter and initial condition
 #' @param theta parameter
-#' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
-#' @return  The average status of arrivals compartments after complete quarantine
+#' @param inp is a list include duration : number of days and ini: initial compartments of the country
+#' @return  The average realization of the country during the period
+#' @importFrom stats rpois
 #' @examples
 #' \dontrun{## Initial Condition
-#' S1 = 900
-#' I1 = 100
-#' A1 = 0
+#' P1 = 10^7
+#' I1 = 250
+#' A1 = 130
+#' S1 = P1 - I1 - A1
 #' x1 = c(S1,I1,A1,0,0,0)#
-#' days= 14
-#' inp = list(durationquarantine = days, ini = x1)
-#' theta0 = c(0,0,1/14,3/100,1,.5)
-#' detfunc_postquarantine(theta0,inp)}
+#' days= 84
+#' inp = list(duration =days, ini = x1)
+#' k= 1
+#' theta0 = as.numeric(thetas_3travel[[k]][1:6])
+#' stochastic_1country(theta0,inp)}
 #' @export
 
-
-detfunc_postquarantine = function(theta,inp){
-  n1 = 2 + inp$durationquarantine #adjust for 0 and 1
-  status_matrix = matrix(0,nrow = n1, ncol=6)
+stochastic_1country = function(theta,inp){
+  status_matrix = matrix(0,nrow = inp$duration,ncol=6)
   status_matrix[1,] = inp$ini
 
+  #Transmission rate, alpha
+  harzard1 = function(x,theta){
+    h1 = (theta[1] + theta[2])*x[1]*x[2]/sum(x)
+    names(h1)=c("hazard1")
+    return(h1)
+  }
 
   #New confirmed rate, gamma, c(alpha0,alpha, beta, delta, eta, gamma)
   harzard2 = function(x,theta){
@@ -46,31 +53,43 @@ detfunc_postquarantine = function(theta,inp){
     return(h5)
   }
 
-  for (i in 2:n1){
+  for (i in 2:inp$duration){
 
     x = status_matrix[(i-1),]
 
+    y1 = rpois(1, harzard1(x,theta))
+    #
+    y2 =  rpois(1, harzard2(x,theta))
+    #
+    y3 = rpois(1, harzard3(x,theta))
+    #
+    y4 =  rpois(1, harzard4(x,theta))
+    #
+    y5 = rpois(1, harzard5(x,theta))
 
-    #
-    y2 =  harzard2(x,theta)
-    #
-    y3 =  harzard3(x,theta)
-    #
-    y4 =  harzard4(x,theta)
-    #
-    y5 =  harzard5(x,theta)
+
+
+    ##Susceptible
+    if(y1<= x[1]){
+      x[1] = x[1] - y1} else{
+        y1 = x[1]
+        x[1] =0
+      }
+
+
 
     #######Infect
-    if(x[2] - y2 - y5 >= 0){
-      x[2] = x[2] - y2 - y5} else{
-        y2 =  x[2]  - y5
+    if(y1-y2-y5+x[2]>= 0){
+      x[2] = x[2] + y1 - y2 - y5} else{
+        y2 =  x[2] + y1 - y5
         x[2] =0
       }
 
     if(y2 <0){
       y2 = 0
-      y5 = x[2]
+      y5 = x[2] + y1
     }
+
 
     #######Active
     if(y2-y3-y4+x[3] >= 0){
@@ -97,8 +116,7 @@ detfunc_postquarantine = function(theta,inp){
 
     status_matrix[i,] = x
   }
-  n2 = n1 -1 # shiftback 1 to get the status of the last day in quarantine
-  lastdayquarantine = status_matrix[n2,]
-  lastdayquarantine = round(lastdayquarantine,digits=0)
-  return(lastdayquarantine)
+
+  return(status_matrix)
 }
+

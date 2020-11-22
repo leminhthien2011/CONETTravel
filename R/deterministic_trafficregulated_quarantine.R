@@ -1,16 +1,15 @@
-#' This function gives stochastic realization for n countries with a given regulated strategy and quarantine
+#' This function gives deterministic realization for n countries with a given regulated strategy and quarantine
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
 #' durationquarantine : number of days people have to quarantine,
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
-#' @importFrom stats rpois
-#' @return  The stochastic realization of n countries with travel data regulated
+#'
+#' @return  The average realization of n countries with travel data regulated
 
 #' @examples
 #' \dontrun{
-
 #' #Example 1: 3 countries
 #' library(CONETTravel)
 #' P1 = 10^7
@@ -37,7 +36,7 @@
 #' traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
 #' inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
 #'          initialmatrix = initial_corona, quarantinerate = 1, durationquarantine = 14)
-#' stofunc_trafficregulated_quarantine(theta0, inp)
+#' detfunc_trafficregulated_quarantine(theta0, inp)
 
 #' #Example 2: 6 countries
 #' P1 = 10^7
@@ -63,12 +62,12 @@
 
 #' inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
 #'           initialmatrix = initial_corona, quarantinerate = 1, durationquarantine = 14)
-#' stofunc_trafficregulated_quarantine(theta0, inp)
+#' deterministic_trafficregulated_quarantine(theta0, inp)
 #' }
 
 #' @export
 
-stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
+deterministic_trafficregulated_quarantine =  function(thetamatrix, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
@@ -152,15 +151,15 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
 
       theta = thetamatrix[j,]
       ##Generating Poisson values based on hazard functions
-      y1 =  rpois(1, harzard1(x,theta))
+      y1 =  harzard1(x,theta)
       #
-      y2 =  rpois(1, harzard2(x,theta))
+      y2 =   harzard2(x,theta)
       #
-      y3 = rpois(1, harzard3(x,theta))
+      y3 = harzard3(x,theta)
       #
-      y4 =  rpois(1, harzard4(x,theta))
+      y4 =  harzard4(x,theta)
       #
-      y5 = rpois(1, harzard5(x,theta))
+      y5 = harzard5(x,theta)
 
 
 
@@ -247,8 +246,8 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
 
           #Adjust susceptible of average out by using infect_outdistribute
           suseptible = tmp[1] + tmp[2] - infect_outdistribute[val1]
-          f_outmat[val,e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
-
+          #f_outmat[val,e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
+          f_outmat[val,e1:e2] = tmp # Keep at the average rate for reprocibility
         }else{
           f_outmat[val,e1:e2] = rep(0,6)
         }
@@ -270,10 +269,11 @@ stofunc_trafficregulated_quarantine =  function(thetamatrix, inp){
     for( qua in 1:numbercountries){
       a1 = 1 + (qua-1)*6
       a2 = 6 + (qua-1)*6
-      inp1 = list(durationquarantine = inp$durationquarantine, ini =  inp$quarantinerate*f_in[i,a1:a2])
+      quarantineinp = inp$quarantinerate*f_in[i,a1:a2]
+      inp1 = list(durationquarantine = inp$durationquarantine, ini = quarantineinp )
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine
-      f_in_donequarantine[i1,a1:a2] = stofunc_postquarantine(theta1,inp1)
+      f_in_donequarantine[i1,a1:a2] = detfunc_postquarantine(theta1,inp1)
 
     }
 

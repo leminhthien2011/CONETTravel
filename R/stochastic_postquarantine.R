@@ -12,13 +12,13 @@
 #' days= 14
 #' inp = list(durationquarantine = days, ini = x1)
 #' theta0 = c(0,0,1/14,3/100,1,.5)
-#' stofunc_postquarantine(theta0,inp)}
+#' stochastic_postquarantine(theta0,inp)}
 #' @export
 
 
 
 
-stofunc_postquarantine = function(theta,inp){
+stochastic_postquarantine = function(theta,inp){
   n1 = 2 + inp$durationquarantine # Adjust for 0 and 1
   status_matrix = matrix(0,nrow = n1, ncol=6)
   status_matrix[1,] = inp$ini

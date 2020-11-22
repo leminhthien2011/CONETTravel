@@ -1,13 +1,14 @@
-#' This function gives deterministic realization for n countries with a given regulated
-#' strategy and quarantine duration that each country required
+#' This function gives stochastic realization for n countries with a given regulated
+#' strategy and quarantine duration that each destination country required for all other countries entered it's authority
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
 #'  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
-#'
-#' @return  The average realization of n countries with travel data regulated
+#' @importFrom stats rpois
+#' @importFrom stats rmultinom
+#' @return  The stochastic realization of n countries with travel data regulated and quarantine in
 
 #' @examples
 #' \dontrun{
@@ -36,14 +37,14 @@
 #'  traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
 #'  inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
 #'            initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedin = c(14,14,14))
-#'  detfunc_trafficregulated_adjustedin_quarantine(theta0, inp)
+#'  stochastic_trafficregulated_adjustedin_quarantine(theta0, inp)
 
 #' }
 
 #' @export
 
 
-detfunc_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
+stochastic_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
 
   ##################Defining harzard functions
   #New infected rate, alphas,c(alpha0,alpha, beta, delta, eta, gamma)
@@ -127,16 +128,16 @@ detfunc_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
 
       theta = thetamatrix[j,]
       ##Generating Poisson values based on hazard functions
-      y1 =  harzard1(x,theta)
+      y1 =  rpois(1, harzard1(x,theta))
       #
-      y2 =   harzard2(x,theta)
+      y2 =  rpois(1, harzard2(x,theta))
       #
-      y3 = harzard3(x,theta)
+      y3 = rpois(1, harzard3(x,theta))
       #
-      y4 =  harzard4(x,theta)
+      y4 =  rpois(1, harzard4(x,theta))
       #
-      y5 = harzard5(x,theta)
-
+      y5 = rpois(1, harzard5(x,theta))
+      #
 
 
       ##Susceptible
@@ -222,8 +223,8 @@ detfunc_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
 
           #Adjust susceptible of average out by using infect_outdistribute
           suseptible = tmp[1] + tmp[2] - infect_outdistribute[val1]
-          #f_outmat[val,e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
-          f_outmat[val,e1:e2] = tmp # Keep at the average rate for reprocibility
+          f_outmat[val,e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
+
         }else{
           f_outmat[val,e1:e2] = rep(0,6)
         }
@@ -249,7 +250,7 @@ detfunc_trafficregulated_adjustedin_quarantine =  function(thetamatrix, inp){
       inp1 = list(durationquarantine = inp$durationquarantine_adjustedin[qua], ini = quarantineinp )
       theta1 = thetamatrix[qua,]
       i1 = i + inp$durationquarantine_adjustedin[qua]
-      f_in_donequarantine[i1,a1:a2] = detfunc_postquarantine(theta1,inp1)
+      f_in_donequarantine[i1,a1:a2] = stochastic_postquarantine(theta1,inp1)
 
     }
 
