@@ -290,5 +290,5 @@ deterministicmodel_outadjusted_trafficregulated_quarantine =  function(thetamatr
     status_matrix[i,] = update
 
   }
-  return(status_matrix)
+  return(round(status_matrix, digits=0))
 }

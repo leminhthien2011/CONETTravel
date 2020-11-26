@@ -117,6 +117,6 @@ stochasticmodel_1country = function(theta,inp){
     status_matrix[i,] = x
   }
 
-  return(status_matrix)
+  return(round(status_matrix, digits=0))
 }
 
