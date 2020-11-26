@@ -114,13 +114,13 @@ deterministicmodel_inadjusted_trafficregulated_quarantine =  function(thetamatri
       ##Updated traveling flow
       #Number out from country j
       out = totaltravelout[j]
-      if (x[1]+x[2] > 0){
-        outj = c(round(out*x[1]/(x[1]+x[2]),digits=0), round(out*x[2]/(x[1]+x[2]),digits=0), 0,0,0,0)
+      if (x[1]+x[2] +x[4]+x[6] > 0){
+        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,round(out*x[4]/(x[1]+x[2] +x[4]+x[6]),digits=0),0,round(out*x[6]/(x[1]+x[2] +x[4]+x[6]),digits=0))
         #########
         f_out[i,c1:c2] = outj
       }else{
 
-        f_out[i,c1:c2] = c(out, 0,0,0,0,0)
+        f_out[i,c1:c2] = c(0, 0,0,0,0,0)
       }
 
       #travel out from country i with sick and susceptible
