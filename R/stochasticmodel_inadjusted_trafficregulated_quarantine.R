@@ -256,7 +256,7 @@ stochasticmodel_inadjusted_trafficregulated_quarantine =  function(thetamatrix, 
 
     #######
     update = status_matrix[i,]  +  f_in_donequarantine[i,] + (1 -inp$quarantinerate)*f_in[i,] - f_out[i,]
-    update[update<0.1]=0
+    update[update<0.5]=0
     status_matrix[i,] = update
 
   }

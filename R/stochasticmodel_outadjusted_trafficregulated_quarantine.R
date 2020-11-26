@@ -287,7 +287,7 @@ stochasticmodel_outadjusted_trafficregulated_quarantine =  function(thetamatrix,
 
 
 
-    update[update<0.1]=0
+    update[update<0.5]=0
     status_matrix[i,] = update
 
   }
