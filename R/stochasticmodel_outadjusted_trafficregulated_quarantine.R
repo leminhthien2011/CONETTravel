@@ -124,7 +124,7 @@ stochasticmodel_outadjusted_trafficregulated_quarantine =  function(thetamatrix,
       #Number out from country j
       out = totaltravelout[j]
       if (x[1]+x[2] > 0){
-        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,0,0,0)
+        outj = c(round(out*x[1]/(x[1]+x[2] ),digits=0), round(out*x[2]/(x[1]+x[2] ),digits=0), 0,0,0,0)
         ###########
         f_out[i,c1:c2] = outj
       }else{
