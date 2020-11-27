@@ -116,7 +116,7 @@ stochasticmodel_inadjusted_trafficregulated_quarantine =  function(thetamatrix, 
       #Number out from country j
       out = totaltravelout[j]
       if (x[1]+x[2] +x[4]+x[6] > 0){
-        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,round(out*x[4]/(x[1]+x[2] +x[4]+x[6]),digits=0),0,round(out*x[6]/(x[1]+x[2] +x[4]+x[6]),digits=0))
+        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,0,0,0)
         ###############
         f_out[i,c1:c2] = outj
       }else{
@@ -210,8 +210,12 @@ stochasticmodel_inadjusted_trafficregulated_quarantine =  function(thetamatrix, 
       }
 
       #Random assign number infectious from the val-country to other countries
-      infect_outdistribute = rmultinom(1, size = infect_outtotal, prob = probdistribute)
+      if(sum(traveloutregulated[val,])>0){
+        infect_outdistribute = rmultinom(1, size = infect_outtotal, prob = probdistribute)
 
+      } else {
+        infect_outdistribute = rep(0,numbercountries)
+      }
       ##########
 
       for (val1 in 1:numbercountries){

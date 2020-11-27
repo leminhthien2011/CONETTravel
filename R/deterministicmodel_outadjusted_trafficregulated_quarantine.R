@@ -123,7 +123,7 @@ deterministicmodel_outadjusted_trafficregulated_quarantine =  function(thetamatr
       #Number out from country j
       out = totaltravelout[j]
       if (x[1]+x[2] +x[4]+x[6] > 0){
-        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,round(out*x[4]/(x[1]+x[2] +x[4]+x[6]),digits=0),0,round(out*x[6]/(x[1]+x[2] +x[4]+x[6]),digits=0))
+        outj = c(round(out*x[1]/(x[1]+x[2] +x[4]+x[6]),digits=0), round(out*x[2]/(x[1]+x[2] +x[4]+x[6]),digits=0), 0,0,0,0)
         #########
         f_out[i,c1:c2] = outj
       }else{
@@ -206,9 +206,9 @@ deterministicmodel_outadjusted_trafficregulated_quarantine =  function(thetamatr
       #Distribute number of infectious from country val to other countries
 
       infect_outtotal = f_out[i,][d3]# total infect go out from country i
-      probdistribute = rep(0,nrow(traveloutregulated))
+      probdistribute = rep(0,numbercountries)
 
-      for (val6 in 1:nrow(traveloutregulated)){
+      for (val6 in 1:numbercountries){
         if(sum(traveloutregulated[val,])>0){
           probdistribute[val6] = traveloutregulated[val,val6]/sum(traveloutregulated[val,])
         }else{
@@ -216,9 +216,14 @@ deterministicmodel_outadjusted_trafficregulated_quarantine =  function(thetamatr
         }
       }
 
-      #Random assign number infectious from the val-country to other countries
-      infect_outdistribute = rmultinom(1, size = infect_outtotal, prob = probdistribute)
 
+      #Random assign number infectious from the val-country to other countries
+      if(sum(traveloutregulated[val,])>0){
+        infect_outdistribute = rmultinom(1, size = infect_outtotal, prob = probdistribute)
+
+      } else {
+        infect_outdistribute = rep(0,numbercountries)
+      }
       ##########
 
       for (val1 in 1:numbercountries){
