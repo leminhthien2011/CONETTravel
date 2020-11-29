@@ -4,14 +4,16 @@
 \alias{totaltravelout_regulated}
 \title{This function gives a list of total travel data allowed from 1 country to another for a given travel policy}
 \usage{
-totaltravelout_regulated(traveloutdat, policy, P)
+totaltravelout_regulated(traveloutdat, policymatrix, P)
 }
 \arguments{
 \item{traveloutdat}{is the data of travel out from each country without pandemic}
 
-\item{policy}{is a list of policy of rate 12 country 1 let country 2 in during the duration travel
-rate 13 country 1 let country 3 in, rate 21 country 2 let country 1 in, rate 23 country 2 let country 3 in,
-rate 31 country 3 let country 1 in, rate 32 country 3 let country 2 in}
+\item{policymatrix}{is a where each row is policy travel allow,
+row range from 11,12,..1n, 21,22,...,2n, ..., n1,n2,...,nn
+In each row, we have travel rate allow for each day during the duration of travel
+in theory rows 11, 22, ..,nn should be 0, but can also be any values as convenience due to
+the code itself can take care this fact}
 
 \item{P}{vector population of countries in order as travel data}
 }
@@ -23,19 +25,20 @@ This function gives a list of total travel data allowed from 1 country to anothe
 }
 \examples{
 \dontrun{
+set.seed(1)
 P1 = 10^7
 P2 = 3*10^6
 P3 = 2*10^6
 P = c(P1, P2, P3) #population of 3 countries
 traveloutdat = travelout_3dat
-ratein = 1 # policy that allows full rate of travel in
-r12= rep(ratein,nrow(traveloutdat))
-r13= rep(ratein,nrow(traveloutdat))
-r21= rep(ratein,nrow(traveloutdat))
-r23= rep(ratein,nrow(traveloutdat))
-r31= rep(ratein,nrow(traveloutdat))
-r32= rep(ratein,nrow(traveloutdat))
-policy = list(rate12 = r12, rate13 = r13, rate21 = r21, rate23 = r23, rate31 = r31, rate32 = r32)
+numberCountries = ncol(traveloutdat)
+#create a policy matrix where each row is policy travel allow,
+#row range from 11,12,..1n, 21,22,...,2n, ..., n1,n2,...,nn
+#In each row, we have travel rate allow for each day during the duration of travel
+Here we ignored the fact that at row 11, 22,...,nn the rate should be 0, since the travel out
+divide in the code already take care the 0 part
+total = nrow(traveloutdat)*numbercountries^2
+policymatrix = matrix(runif(total, 0, 1), ncol = nrow(traveloutdat), nrow = numbercountries^2)
 totaltravelout_regulated(traveloutdat, policy, P)
 }
 }
