@@ -1,4 +1,6 @@
-#' This function gives deterministic compartments evolved process during the quarantine period for a given parameter and an initial compartments
+#' This function gives deterministic compartments evolved process during the quarantine period
+#'  for a given parameter and an initial compartments, where R, D are the number recover
+#'  and death each day, not a cumulative as used to be
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
 #' @return  The average status of arrivals compartments after complete quarantine
@@ -85,9 +87,9 @@ deterministic_postquarantine_wholeprocess = function(theta,inp){
     }
 
     #Recover
-    x[4] =x[4] + y3
+    x[4] = y3
     #Death
-    x[5]= x[5] + y4
+    x[5]=  y4
     #Recover Unconfirmed
     x[6]= x[6] + y5
 
@@ -98,7 +100,7 @@ deterministic_postquarantine_wholeprocess = function(theta,inp){
     status_matrix[i,] = x
   }
   n2 = n1 -1 # shiftback 1 to get the status of the last day in quarantine
+
   quarantineevolve = status_matrix[1:n2,]
-  quarantineevolve = round(quarantineevolve, digits=0)
   return(quarantineevolve)
 }

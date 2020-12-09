@@ -1,4 +1,6 @@
-#' This function gives stochastic compartments of the evolve process during the quarantine time for a given parameter and an initial compartments
+#' This function gives stochastic compartments of the evolve process during the quarantine time
+#' for a given parameter and an initial compartments, where R, D are the number recover
+#'  and death each day, not a cumulative as used to be
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrivals
 #' @return  The stochastic status of arrivals compartments after complete quarantine
@@ -88,9 +90,9 @@ stochastic_postquarantine_wholeprocess = function(theta,inp){
     }
 
     #Recover
-    x[4] =x[4] + y3
+    x[4] = y3
     #Death
-    x[5]= x[5] + y4
+    x[5]=  y4
     #Recover Unconfirmed
     x[6]= x[6] + y5
 
@@ -102,6 +104,6 @@ stochastic_postquarantine_wholeprocess = function(theta,inp){
   }
   n2 = n1-1
   quarantineevolve = status_matrix[1:n2, ]
-  quarantineevolve = round(quarantineevolve ,digits=0)
+
   return(quarantineevolve )
 }
