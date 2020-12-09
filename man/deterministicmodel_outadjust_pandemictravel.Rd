@@ -33,35 +33,61 @@ exist and traveler status after done quarantine if any quarantine need.
 \examples{
 \dontrun{
 library(CONETTravel)
+######function generating parameters with R0 in a given range
 thetagenerating = function(lowerbound, upperbound){
- tmp2 = 1 # need for kick off
- while(tmp2 >0){
-  theta = c( alpha0 = 0,alpha = runif(1,0,1),beta = runif(1,0,.25), delta=runif(1,0,.25),
-             eta=1, gamma=runif(1,0,1) )
-  tmp1 = theta[2]/(theta[3] + theta[6])
-  tmp2 = (tmp1 - lowerbound)*(tmp1 - upperbound)
+tmp2 = 1 # need for kick off
+while(tmp2 >0){
+   theta = c( alpha0 = 0,alpha = runif(1,0,1),beta = runif(1,0,.25), delta=runif(1,0,.25),
+           eta=1, gamma=runif(1,0,1) )
+tmp1 = theta[2]/(theta[3] + theta[6])
+ tmp2 = (tmp1 - lowerbound)*(tmp1 - upperbound)
 }
 return(theta)
 }
+############ function generate theta matrix
+thetafunction <- function(numbercountries){
+thetamat = matrix(0, nrow=numbercountries, ncol=6)
+for(i in 1:numbercountries){
+  thetamat[i,] = thetagenerating(0.47,6.47) # R0 belongs to .47, 6.47
+}
+return(thetamat)
+}
+###########initial matrix function
 initialmatrix_func =  function(numbercountries){
  initialmatrix = matrix(0, numbercountries, 6)
- for (country in 1:numbercountries){
-   P = round(runif(1, 50000, 20000000000), digits=0)
-   I = round(runif(1, 100000, 200000), digits=0)
-   S = P - I
+for (country in 1:numbercountries){
+ P = round(runif(1, 50000, 20000000000), digits=0)
+I = round(runif(1, 0, 2000), digits=0)
+ S = P - I
   initialmatrix[country,] = c(S, I, 0, 0,0,0)
- }
-return(initialmatrix)
 }
-travelout_data = travelout_3dat
-initial_corona =  initialmatrix_func(3)
+ return(initialmatrix)
+}
+############function generate travel data
+traveldata_func = function(P, numbercountries, travelrate, durationtravel){
+ traveldata = matrix(0, nrow = durationtravel, ncol = numbercountries)
+for( day in 1:durationtravel){
+ for (country in 1:numbercountries){
+   Totaltravel = P[country]*travelrate
+     SdTotaltravel = Totaltravel*.05
+     traveldata[day,country] = round(rnorm(1, Totaltravel, SdTotaltravel), digits=0)
+   }
+ }
+ return(traveldata)
+}
+#############
+numbercountries = 7 # choose the number of countries
+initial_corona =  initialmatrix_func(numbercountries)
 P = rowSums(initial_corona)
-theta0 = rbind(thetagenerating(1,6.5), thetagenerating(.5,6.5), thetagenerating(.5,6.5))
-thetamatrix = theta0
+travelrate = 40/(365*328) #a given travel rate each day
+durationtravel = 84 # number of days travel
+travelout_data = traveldata_func(P, numbercountries, travelrate, durationtravel)
+#generate theta matrix for each countries
+thetamatrix = thetafunction(numbercountries)
 ratein = 1 # policy that allows full rate of travel in
 traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
-inp = list(durationtravel = 84, travelregulated = traveloutDivideRegulated,
-         initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
- deterministicmodel_outadjust_pandemictravel(theta0, inp)
+inp = list(durationtravel = durationtravel, travelregulated = traveloutDivideRegulated,
+          initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = rep(14,numbercountries))
+deterministicmodel_outadjust_pandemictravel(thetamatrix, inp)
 }
 }
