@@ -1,6 +1,6 @@
 #' This function gives deterministic compartments evolved process during the quarantine period
-#'  for a given parameter and an initial compartments, where R, D are the number recover
-#'  and death each day, not a cumulative as used to be
+#'  for a given parameter and an initial compartments, outputs inlude travelers status done
+#'  quarantine and new active confirmed each day during the quarantine period
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
 #' @return  The average status of arrivals compartments after complete quarantine
@@ -13,94 +13,55 @@
 #' days= 14
 #' inp = list(durationquarantine = days, ini = x1)
 #' theta0 = c(0,0,1/14,3/100,1,.5)
-#' deterministic_postquarantine_wholeprocess(theta0,inp)}
+#' deterministic_postquarantine_separate(theta0,inp)}
 #' @export
 
 
-deterministic_postquarantine_wholeprocess = function(theta,inp){
-  n1 = 2 + inp$durationquarantine #adjust for 0 and 1
-  status_matrix = matrix(0,nrow = n1, ncol=6)
-  status_matrix[1,] = inp$ini
-
-
-  #New confirmed rate, gamma, c(alpha0,alpha, beta, delta, eta, gamma)
-  harzard2 = function(x,theta){
-    h2 = theta[6]*x[2]
-    names(h2)=c("hazard2")
+deterministic_postquarantine_separate = function (theta, inp) {
+  n1 = 2 + inp$durationquarantine
+  status_matrix = matrix(0, nrow = n1, ncol = 6)
+  activeeachday_matrix = matrix(0, nrow = n1, ncol = 6)
+  status_matrix[1, ] = inp$ini
+  harzard2 = function(x, theta) {
+    h2 = theta[6] * x[2]
+    names(h2) = c("hazard2")
     return(h2)
   }
-  #New confirmed recover, beta, c(alpha0,alpha, beta, delta, eta, gamma)
-  harzard3 = function(x,theta){
-    h3 = theta[3]*x[3]
-    names(h3)=c("hazard3")
-    return(h3)
-  }
-  #New confirmed death, delta, c(alpha0,alpha, beta, delta, eta, gamma)
-  harzard4 = function(x,theta){
-    h4 = theta[4]*x[3]
-    names(h4)=c("hazard4")
-    return(h4)
-  }
-  #New unconfirmed recover, eta*beta, c(alpha0,alpha, beta, delta, eta, gamma)
-  harzard5 = function(x,theta){
-    h5 = theta[5]*theta[3]*x[2]
-    names(h5)=c("hazard5")
+
+
+  harzard5 = function(x, theta) {
+    h5 = theta[5] * theta[3] * x[2]
+    names(h5) = c("hazard5")
     return(h5)
   }
 
-  for (i in 2:n1){
+  for (i in 2:n1) {
+    x = status_matrix[(i - 1), ]
+    y2 = harzard2(x, theta)
 
-    x = status_matrix[(i-1),]
-
-
-    #
-    y2 =  harzard2(x,theta)
-    #
-    y3 =  harzard3(x,theta)
-    #
-    y4 =  harzard4(x,theta)
-    #
-    y5 =  harzard5(x,theta)
-
-    #######Infect
-    if(x[2] - y2 - y5 >= 0){
-      x[2] = x[2] - y2 - y5} else{
-        y2 =  x[2]  - y5
-        x[2] =0
-      }
-
-    if(y2 <0){
+    y5 = harzard5(x, theta)
+    if (x[2] - y2 - y5 >= 0) {
+      x[2] = x[2] - y2 - y5
+    }
+    else {
+      y2 = x[2] - y5
+      x[2] = 0
+    }
+    if (y2 < 0) {
       y2 = 0
       y5 = x[2]
     }
 
-    #######Active
-    if(y2-y3-y4+x[3] >= 0){
-      x[3] = x[3] + y2 - y3 - y4} else{
-        y3 = y2-y4+x[3]
-        x[3] =0
-      }
+    x[3] =  y2
 
-    if(y3 <0){
-      y3 = 0
-      y4 = x[3] + y2
-    }
-
-    #Recover
-    x[4] = y3
-    #Death
-    x[5]=  y4
-    #Recover Unconfirmed
-    x[6]= x[6] + y5
-
-
-
-
-
-    status_matrix[i,] = x
+    x[4] =  0
+    x[5] = 0
+    x[6] = x[6] + y5
+    status_matrix[i, ] = x
   }
-  n2 = n1 -1 # shiftback 1 to get the status of the last day in quarantine
-
-  quarantineevolve = status_matrix[1:n2,]
-  return(quarantineevolve)
+  n2 = n1 - 1
+  tmp =  status_matrix[n2, ]# lastday categorizes
+  tmp[3] = 0 #replace A by 0, since A can be added active confirm each day
+  activeeachday_matrix[,3] = status_matrix[,3] #only keep the active confirm category
+  return(list(donequarantine = tmp, activeconfirm_eachday =activeeachday_matrix[1:n2,] ))
 }
