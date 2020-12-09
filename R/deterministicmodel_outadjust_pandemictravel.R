@@ -16,30 +16,42 @@
 #' @examples
 #' \dontrun{
 #' library(CONETTravel)
-#' P1 = 10^7
-#' I1 = 250
-#' A1 = 130
-#' S1 = P1 - I1 - A1
-#' x1 = c(S1,I1,A1,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
-#' P2 = 3*10^6
-#' I2 = 20
-#' A2 = 10
-#'  S2 = P2 - I2 - A2
-#'  x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
-#'  P3 = 2*10^6
-#' I3 = 15
-#' A3 = 15
-#' S3 = P3 - I3 - A3
-#'  x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 3
-#'  travelout_data = travelout_3dat
-#'  initial_corona = as.matrix(rbind(x1,x2,x3) )#initial conditions of 3 countries
-#'  P = c(P1, P2, P3) #population 3 countries
-#'  k = 13
-#'  theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][13:18])
-#'  ratein = 1 # policy that allows full rate of travel in
-#'  traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
-#'  inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
-#'            initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
+
+#' thetagenerating = function(lowerbound, upperbound){
+#'  tmp2 = 1 # need for kick off
+#'  while(tmp2 >0){
+#'   theta = c( alpha0 = 0,alpha = runif(1,0,1),beta = runif(1,0,.25), delta=runif(1,0,.25),
+#'              eta=1, gamma=runif(1,0,1) )
+#'   tmp1 = theta[2]/(theta[3] + theta[6])
+#'   tmp2 = (tmp1 - lowerbound)*(tmp1 - upperbound)
+#' }
+#' return(theta)
+#'}
+
+##############################
+#' initialmatrix_func =  function(numbercountries){
+#'  initialmatrix = matrix(0, numbercountries, 6)
+#'  for (country in 1:numbercountries){
+#'    P = round(runif(1, 50000, 20000000000), digits=0)
+#'    I = round(runif(1, 100000, 200000), digits=0)
+#'    S = P - I
+#'   initialmatrix[country,] = c(S, I, 0, 0,0,0)
+#'  }
+
+#' return(initialmatrix)
+#' }
+
+#' travelout_data = travelout_3dat
+
+#' initial_corona =  initialmatrix_func(3)
+#' P = rowSums(initial_corona)
+#' theta0 = rbind(thetagenerating(1,6.5), thetagenerating(.5,6.5), thetagenerating(.5,6.5))
+#' thetamatrix = theta0
+#' ratein = 1 # policy that allows full rate of travel in
+#' traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
+#'inp = list(durationtravel = 84, travelregulated = traveloutDivideRegulated,
+#'          initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
+
 #'  deterministicmodel_outadjust_pandemictravel(theta0, inp)
 
 #' }
@@ -48,9 +60,10 @@
 
 
 
+
 deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 {
-  #
+
   harzard1 = function(x, theta) {
     h1 = (theta[1] + theta[2]) * x[1] * x[2]/sum(x)
     names(h1) = c("hazard1")
@@ -78,9 +91,12 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
   }
   numbercountries = nrow(inp$initialmatrix)
   compartments = ncol(inp$initialmatrix)
-  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*compartments)
-  f_in = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*compartments)
-  f_out = matrix(0, nrow = inp$durationtravel, ncol = numbercountries*compartments)
+  status_matrix = matrix(0, nrow = inp$durationtravel, ncol = numbercountries *
+                           compartments)
+  f_in = matrix(0, nrow = inp$durationtravel, ncol = numbercountries *
+                  compartments)
+  f_out = matrix(0, nrow = inp$durationtravel, ncol = numbercountries *
+                   compartments)
   totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedout)
   f_out_donequarantine_list = list()
   f_out_activequarantine_addlist = list()
@@ -117,7 +133,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       out = totaltravelout[j]
       if (x[1] + x[2] > 0) {
         outj = c(round(out * x[1]/(x[1] + x[2]), digits = 0),
-                 round(out * x[2]/(x[1] + x[2]), digits = 0), 0, 0, 0, 0)
+                 round(out * x[2]/(x[1] + x[2]), digits = 0),
+                 0, 0, 0, 0)
         f_out[i, c1:c2] = outj
       }
       else {
@@ -165,7 +182,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
     } #end j loop
 
 
-    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries*compartments)
+    f_outmat = matrix(0, nrow = numbercountries, ncol = numbercountries *
+                        compartments)
     for (val in 1:numbercountries) {
       d1 = (val - 1) * 6 + 1
       d2 = val * 6
@@ -175,14 +193,16 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       probdistribute = rep(0, numbercountries)
       for (val6 in 1:numbercountries) {
         if (sum(traveloutregulated[val, ]) > 0) {
-          probdistribute[val6] = traveloutregulated[val, val6]/sum(traveloutregulated[val, ])
+          probdistribute[val6] = traveloutregulated[val,
+                                                    val6]/sum(traveloutregulated[val, ])
         }
         else {
           probdistribute[val6] = 0
         }
       }
       if (sum(traveloutregulated[val, ]) > 0) {
-        infect_outdistribute = rmultinom(1, size = infect_outtotal, prob = probdistribute)
+        infect_outdistribute = rmultinom(1, size = infect_outtotal,
+                                         prob = probdistribute)
       }
       else {
         infect_outdistribute = rep(0, numbercountries)
@@ -213,7 +233,10 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
 
     for (countryout in 1:numbercountries) {
+
+
       durationquarantine_countryout = inp$durationquarantine_adjustedout[countryout]
+
       for (countryin in 1:numbercountries) {
 
 
@@ -222,17 +245,25 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
         a3 = 3 + (countryin - 1) * 6
         quarantineinp = inp$quarantinerate * f_outmat[countryout,
                                                       a1:a2]
-        inp1 = list(durationquarantine = durationquarantine_countryout, ini = quarantineinp)
+        inp1 = list(durationquarantine = durationquarantine_countryout,
+                    ini = quarantineinp)
         theta1 = thetamatrix[countryin, ]
+
+
         i1 = i + durationquarantine_countryout
 
         tmp = deterministic_postquarantine_separate(theta1, inp1)
-        f_out_donequarantine_list[[countryout]][i1, a1:a2] = tmp$donequarantine
 
+        if(durationquarantine_countryout > 0){
+          f_out_donequarantine_list[[countryout]][i1, a1:a2] = tmp$donequarantine
 
+          f_out_activequarantine_list[[countryout]][i:i1,a3] = tmp$activeconfirm_eachday[,3]
+        } else{
+          f_out_donequarantine_list[[countryout]][i, a1:a2] = tmp$donequarantine
 
-        f_out_activequarantine_list[[countryout]][i:i1,a3] = tmp$activeconfirm_eachday[,3]
+          f_out_activequarantine_list[[countryout]][i,a3] = tmp$activeconfirm_eachday[3] # this reduced to a vector
 
+        } #end loop that making sure a valid code when no quarantine required
 
 
       }
@@ -241,10 +272,9 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
 
 
-    ##########Accumulate active cases from travel
+    ##########Accumulate ctive cases from travel
     for(country in 1:numbercountries){
-      f_out_activequarantine_addlist[[country]] = f_out_activequarantine_addlist[[country]] +
-        f_out_activequarantine_list[[country]]
+      f_out_activequarantine_addlist[[country]] = f_out_activequarantine_addlist[[country]] + f_out_activequarantine_list[[country]]
     }
 
 
@@ -256,7 +286,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       for (countryin1 in 1:numbercountries) {
         aa1 = 1 + (countryin1 - 1) * 6
         aa2 = 6 + (countryin1 - 1) * 6
-        f_in_donequarantine[, aa1:aa2] = f_in_donequarantine[, aa1:aa2] + f_out_donequarantine_list[[countryout1]][,
+        f_in_donequarantine[, aa1:aa2] = f_in_donequarantine[,
+                                                             aa1:aa2] + f_out_donequarantine_list[[countryout1]][,
                                                                                                                  aa1:aa2]
       }
     }
@@ -270,8 +301,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       for (countryin1 in 1:numbercountries) {
         aa1 = 1 + (countryin1 - 1) * 6
         aa2 = 6 + (countryin1 - 1) * 6
-        f_in_activeupdated[, aa1:aa2] = f_in_activeupdated[, aa1:aa2] +
-          f_out_activequarantine_addlist[[countryout1]][,
+        f_in_activeupdated[, aa1:aa2] = f_in_activeupdated[,
+                                                           aa1:aa2] + f_out_activequarantine_addlist[[countryout1]][,
                                                                                                                     aa1:aa2]
       }
     }
@@ -287,20 +318,17 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       f_in[i, f1:f2] = colSums(f_outmat[, f1:f2])
     }
 
- ########################
-    update = status_matrix[i, ] + f_in_donequarantine[i, ] +
-      (1 - inp$quarantinerate) * f_in[i, ] - f_out[i, ] + f_in_activeupdated[i,]
+    update = status_matrix[i, ] + f_in_donequarantine[i,
+    ] + (1 - inp$quarantinerate) * f_in[i, ] - f_out[i,
+    ] + f_in_activeupdated[i,]
 
 
 
     update[update < 0.5] = 0
     status_matrix[i, ] = update
-  }# end loop i
+  }
 
 
   return(list(model_output = round(status_matrix, digits = 0), activeconfirmtravel = f_in_activeupdated[1:inp$durationtravel,],
               travelarrival_postquarantine = f_in_donequarantine[1:inp$durationtravel,] ))
-}#end function
-
-
-
+}

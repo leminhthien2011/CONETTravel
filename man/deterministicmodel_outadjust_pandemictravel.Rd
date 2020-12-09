@@ -33,30 +33,35 @@ exist and traveler status after done quarantine if any quarantine need.
 \examples{
 \dontrun{
 library(CONETTravel)
-P1 = 10^7
-I1 = 250
-A1 = 130
-S1 = P1 - I1 - A1
-x1 = c(S1,I1,A1,0,0,0) # State corresponding S,I,A,R,D,Ru country 1
-P2 = 3*10^6
-I2 = 20
-A2 = 10
- S2 = P2 - I2 - A2
- x2 = c(S2,I2,A2,0,0,0) # State corresponding S,I,A,R,D,Ru country 2
- P3 = 2*10^6
-I3 = 15
-A3 = 15
-S3 = P3 - I3 - A3
- x3 = c(S3,I3,A3,0,0,0) # State corresponding S,I,A,R,D,Ru country 3
- travelout_data = travelout_3dat
- initial_corona = as.matrix(rbind(x1,x2,x3) )#initial conditions of 3 countries
- P = c(P1, P2, P3) #population 3 countries
- k = 13
- theta0 = rbind(thetas_3travel[[k]][1:6],thetas_3travel[[k]][7:12],thetas_3travel[[k]][13:18])
- ratein = 1 # policy that allows full rate of travel in
- traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
- inp = list(durationtravel = nrow(travelout_data), travelregulated = traveloutDivideRegulated,
-           initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
+thetagenerating = function(lowerbound, upperbound){
+ tmp2 = 1 # need for kick off
+ while(tmp2 >0){
+  theta = c( alpha0 = 0,alpha = runif(1,0,1),beta = runif(1,0,.25), delta=runif(1,0,.25),
+             eta=1, gamma=runif(1,0,1) )
+  tmp1 = theta[2]/(theta[3] + theta[6])
+  tmp2 = (tmp1 - lowerbound)*(tmp1 - upperbound)
+}
+return(theta)
+}
+initialmatrix_func =  function(numbercountries){
+ initialmatrix = matrix(0, numbercountries, 6)
+ for (country in 1:numbercountries){
+   P = round(runif(1, 50000, 20000000000), digits=0)
+   I = round(runif(1, 100000, 200000), digits=0)
+   S = P - I
+  initialmatrix[country,] = c(S, I, 0, 0,0,0)
+ }
+return(initialmatrix)
+}
+travelout_data = travelout_3dat
+initial_corona =  initialmatrix_func(3)
+P = rowSums(initial_corona)
+theta0 = rbind(thetagenerating(1,6.5), thetagenerating(.5,6.5), thetagenerating(.5,6.5))
+thetamatrix = theta0
+ratein = 1 # policy that allows full rate of travel in
+traveloutDivideRegulated = totaltravelout_samerate_regulated(travelout_data, ratein, P)
+inp = list(durationtravel = 84, travelregulated = traveloutDivideRegulated,
+         initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = c(0,7,14))
  deterministicmodel_outadjust_pandemictravel(theta0, inp)
 }
 }
