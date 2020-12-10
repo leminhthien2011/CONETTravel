@@ -1,4 +1,4 @@
-#' This function gives deterministic realization for n countries with a given regulated
+#' This function gives stochastic realization for n countries with a given regulated
 #' strategy and quarantine duration required by the destination countries
 #' for each travel out country depends on the situation of the travel out country
 #' It also returns number new cases active confirmed each day during the pandemic if quarantine
@@ -10,7 +10,7 @@
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
 #'
-#' @return  The average realization of n countries with travel data regulated, also returns
+#' @return  The a stochastic realization of n countries with travel data regulated, also returns
 #' travelers status before and after quarantine, and active confirm update during the quarantine time
 
 #' @examples
@@ -22,11 +22,11 @@
 #' tmp2 = 1 # need for kick off
 #' while(tmp2 >0){
 #'    theta = c( alpha0 = 0,alpha = runif(1,0,1),beta = runif(1,0,.25), delta=runif(1,0,.25),
- #'            eta=1, gamma=runif(1,0,1) )
+#'            eta=1, gamma=runif(1,0,1) )
 #' tmp1 = theta[2]/(theta[3] + theta[6])
 #'  tmp2 = (tmp1 - lowerbound)*(tmp1 - upperbound)
 #' }
- #' return(theta)
+#' return(theta)
 #' }
 #' ############ function generate theta matrix
 #' thetafunction <- function(numbercountries){
@@ -79,7 +79,7 @@
 #' inp = list(durationtravel = durationtravel, travelregulated = traveloutDivideRegulated,
 #'           initialmatrix = initial_corona, quarantinerate = 1, durationquarantine_adjustedout = rep(14,numbercountries))
 
-#' deterministicmodel_outadjust_pandemictravel(thetamatrix, inp)
+#' stochasticmodel_outadjust_pandemictravel(thetamatrix, inp)
 
 
 #' }
@@ -89,7 +89,7 @@
 
 
 
-deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
+stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 {
 
   harzard1 = function(x, theta) {
@@ -175,11 +175,17 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
         f_out[i, c1:c2] = c(0, 0, 0, 0, 0, 0)
       }
       theta = thetamatrix[j, ]
-      y1 = harzard1(x, theta)
-      y2 = harzard2(x, theta)
-      y3 = harzard3(x, theta)
-      y4 = harzard4(x, theta)
-      y5 = harzard5(x, theta)
+      ##Generating Poisson values based on hazard functions
+      y1 =  rpois(1, harzard1(x,theta))
+      #
+      y2 =  rpois(1, harzard2(x,theta))
+      #
+      y3 = rpois(1, harzard3(x,theta))
+      #
+      y4 =  rpois(1, harzard4(x,theta))
+      #
+      y5 = rpois(1, harzard5(x,theta))
+      #
       if (y1 <= x[1]) {
         x[1] = x[1] - y1
       }
@@ -248,9 +254,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
           tmp = round(f_outtotal * traveloutregulated[val,
                                                       val1]/sum(traveloutregulated[val, ]), digits = 0)
           suseptible = tmp[1] + tmp[2] - infect_outdistribute[val1]
-          f_outmat[val, e1:e2] = tmp
-        }
-        else {
+          f_outmat[val, e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
+        }else{
           f_outmat[val, e1:e2] = rep(0, 6)
         }
       }
@@ -290,8 +295,8 @@ deterministicmodel_outadjust_pandemictravel = function (thetamatrix, inp)
         i1 = i + durationquarantine_countryout
         i2 = i + 0
 
-        tmp = deterministic_postquarantine_separate(theta1, inp1)
-        tmp2 = deterministic_postquarantine_separate(theta1, inp2)
+        tmp = stochastic_postquarantine_separate(theta1, inp1)
+        tmp2 = stochastic_postquarantine_separate(theta1, inp2)
 
         f_out_prequarantine_list[[countryout]][i2, a1:a2] = tmp2$donequarantine
 
