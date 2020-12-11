@@ -1,8 +1,8 @@
-#' This function gives stochastic realization for n countries with a given regulated
+#' This function gives a stochastic realization for n countries with a given regulated
 #' strategy and quarantine duration required by the destination countries
 #' for each travel out country depends on the situation of the travel out country
-#' It also returns number new cases active confirmed each day during the pandemic if quarantine
-#' exist and traveler status before and after done quarantine.
+#' It also kepps track the number of new active confirmed casses each day during the pandemic when quarantine
+#' exist or not exist and traveler status before and after done quarantine.
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
 #'  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,
@@ -125,11 +125,12 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
                   compartments)
   f_out = matrix(0, nrow = inp$durationtravel, ncol = numbercountries *
                    compartments)
-  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedout)
+  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedout) + inp$durationtravel -1
   f_out_donequarantine_list = list()
   f_out_prequarantine_list = list()
 
   f_out_activequarantine_addlist = list()
+  f_out_activenoquarantine_addlist = list()
 
   for (outdone in 1:numbercountries) {
     f_out_donequarantine_list[[outdone]] = matrix(0, nrow = totalduration,
@@ -141,7 +142,8 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
     f_out_activequarantine_addlist[[outdone]] = matrix(0, nrow = totalduration,
                                                        ncol = numbercountries * compartments)
 
-
+    f_out_activenoquarantine_addlist[[outdone]] = matrix(0, nrow = totalduration,
+                                                         ncol = numbercountries * compartments)
   }
 
 
@@ -156,6 +158,8 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
 
   for (i in 2:inp$durationtravel) {
+
+
 
     traveloutregulated = as.matrix(inp$travelregulated[[i]])
     totaltravelout = rowSums(traveloutregulated)
@@ -175,7 +179,6 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
         f_out[i, c1:c2] = c(0, 0, 0, 0, 0, 0)
       }
       theta = thetamatrix[j, ]
-      ##Generating Poisson values based on hazard functions
       y1 =  rpois(1, harzard1(x,theta))
       #
       y2 =  rpois(1, harzard2(x,theta))
@@ -185,7 +188,6 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
       y4 =  rpois(1, harzard4(x,theta))
       #
       y5 = rpois(1, harzard5(x,theta))
-      #
       if (y1 <= x[1]) {
         x[1] = x[1] - y1
       }
@@ -255,7 +257,9 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
                                                       val1]/sum(traveloutregulated[val, ]), digits = 0)
           suseptible = tmp[1] + tmp[2] - infect_outdistribute[val1]
           f_outmat[val, e1:e2] = c(suseptible, infect_outdistribute[val1], tmp[3], tmp[4], tmp[5], tmp[6])
-        }else{
+
+        }
+        else {
           f_outmat[val, e1:e2] = rep(0, 6)
         }
       }
@@ -263,20 +267,30 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
     #####create matrix active out each time step
     f_out_activequarantine_list = list()
+    f_out_activenoquarantine_list = list()
 
     for (outdone in 1:numbercountries) {
 
       f_out_activequarantine_list[[outdone]] = matrix(0, nrow = totalduration,
                                                       ncol = numbercountries * compartments)
+      f_out_activenoquarantine_list[[outdone]] = matrix(0, nrow = totalduration,
+                                                        ncol = numbercountries * compartments)
+
     }
 
 
     for (countryout in 1:numbercountries) {
 
 
+
       durationquarantine_countryout = inp$durationquarantine_adjustedout[countryout]
 
       for (countryin in 1:numbercountries) {
+
+
+        #countryout =1
+        #countryin =1
+
 
 
         a1 = 1 + (countryin - 1) * 6
@@ -289,16 +303,31 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
         inp2 = list(durationquarantine = 0,
                     ini = quarantineinp)
+
+
+
         theta1 = thetamatrix[countryin, ]
+
+
 
 
         i1 = i + durationquarantine_countryout
         i2 = i + 0
+        iadd = (inp$durationtravel -1)+ durationquarantine_countryout # duration keep track active confirmed imported
+        i3 = i+ iadd
+
+        inp3 = list(durationquarantine = iadd ,
+                    ini = quarantineinp) #keep track number active confirmed imported
+
 
         tmp = stochastic_postquarantine_separate(theta1, inp1)
         tmp2 = stochastic_postquarantine_separate(theta1, inp2)
+        tmp3 = stochastic_postquarantine_separate(theta1, inp3)
 
-        f_out_prequarantine_list[[countryout]][i2, a1:a2] = tmp2$donequarantine
+
+        f_out_prequarantine_list[[countryout]][i2, a1:a2] = tmp2$donequarantine #keep track number imported cases
+        f_out_activenoquarantine_list[[countryout]][i:i3,a3] = tmp3$activeconfirm_eachday[,3] #keep track number active confirmed imported cases, no quarantine required
+
 
 
         if(durationquarantine_countryout > 0){
@@ -324,6 +353,8 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
     ##########Accumulate ctive cases from travel
     for(country in 1:numbercountries){
       f_out_activequarantine_addlist[[country]] = f_out_activequarantine_addlist[[country]] + f_out_activequarantine_list[[country]]
+      f_out_activenoquarantine_addlist[[country]] = f_out_activenoquarantine_addlist[[country]] + f_out_activenoquarantine_list[[country]]
+
     }
 
 
@@ -352,16 +383,23 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
 
     #########Active confirmed import updated for each country
-    f_in_activeupdated = matrix(0, nrow = totalduration,
-                                ncol = numbercountries * compartments) # avoid overlap adding, set to 0
+    f_in_activeupdated_quarantine = matrix(0, nrow = totalduration,
+                                           ncol = numbercountries * compartments) # avoid overlap adding, set to 0
+
+    f_in_activeupdated_noquarantine = matrix(0, nrow = totalduration,
+                                             ncol = numbercountries * compartments) # avoid overlap adding, set to 0
+
 
     for (countryout1 in 1:numbercountries) {
       for (countryin1 in 1:numbercountries) {
         aa1 = 1 + (countryin1 - 1) * 6
         aa2 = 6 + (countryin1 - 1) * 6
-        f_in_activeupdated[, aa1:aa2] = f_in_activeupdated[,
-                                                           aa1:aa2] + f_out_activequarantine_addlist[[countryout1]][,
-                                                                                                                    aa1:aa2]
+        f_in_activeupdated_quarantine[, aa1:aa2] = f_in_activeupdated_quarantine[, aa1:aa2] +
+          f_out_activequarantine_addlist[[countryout1]][, aa1:aa2]
+
+        f_in_activeupdated_noquarantine[, aa1:aa2] = f_in_activeupdated_noquarantine[, aa1:aa2] +
+          f_out_activenoquarantine_addlist[[countryout1]][, aa1:aa2]
+
       }
     }
 
@@ -377,17 +415,26 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
     update = status_matrix[i, ] + f_in_donequarantine[i,
     ] + (1 - inp$quarantinerate) * f_in[i, ] - f_out[i,
-    ] + f_in_activeupdated[i,]
+    ] + f_in_activeupdated_quarantine[i,]
 
 
 
     update[update < 0.5] = 0
     status_matrix[i, ] = update
+
+
   }
 
 
-  return(list(model_output = round(status_matrix, digits = 0), activeconfirmtravel =
-                f_in_activeupdated[1:inp$durationtravel,], travelarrival_postquarantine =
-                f_in_donequarantine[1:inp$durationtravel,],
-              travelarrival_prequarantine = f_in_prequarantine[1:inp$durationtravel,]))
+  return(list(model_output = round(status_matrix, digits = 0),
+              activeconfirm_importedquarantine = round(f_in_activeupdated_quarantine[1:inp$durationtravel,], digits = 0),
+              activeconfirm_importednoquarantine = round(f_in_activeupdated_noquarantine[1:inp$durationtravel,], digits=0),
+              travelarrival_postquarantine = round(f_in_donequarantine[1:inp$durationtravel,], digits=0),
+              travelarrival_prequarantine = round(f_in_prequarantine[1:inp$durationtravel,], digits=0) ) )
 }
+
+
+
+
+
+
