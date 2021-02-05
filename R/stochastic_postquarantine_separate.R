@@ -113,7 +113,10 @@ stochastic_postquarantine_separate = function (theta, inp)
   }
   n2 = n1 - 1
   tmp = status_matrix1[n2, ]
+
   activeeachday_matrix[, 3] = status_matrix[, 3]
+
+  activeeachday_matrix[n2, 3] = 0  ###hide the status of active confirmed in last day due to jump in to donequarantine
   return(list(donequarantine = tmp, activeconfirm_eachday = activeeachday_matrix[1:n2,
   ]))
 }
