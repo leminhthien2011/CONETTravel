@@ -1,11 +1,10 @@
 #' This function gives a stochastic realization for n countries with a given regulated
 #' strategy and quarantine duration required by the destination countries
 #' for each travel out country depends on the situation of the travel out country
-#' It also kepps track the number of new active confirmed casses each day during the pandemic when quarantine
-#' exist or not exist and traveler status before and after done quarantine.
+#' It also kepps track the number of imported active confirmed each day during the pandemic and traveler status before and after done quarantine.
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
-#'  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,
+#'  durationquarantine_adjustedout : number of days people travel in have to quarantine based on each country policy,
 #' travelregulated: a list of travel allowed from 1 country to another during the duration,
 #' initialmatrix is a matrix of initial compartments of countries, each country is on 1 row, and
 #' quarantinerate is the rate people follow quarantine
@@ -427,8 +426,7 @@ stochasticmodel_outadjust_pandemictravel = function (thetamatrix, inp)
 
 
   return(list(model_output = round(status_matrix, digits = 0),
-              activeconfirm_importedquarantine = round(f_in_activeupdated_quarantine[1:inp$durationtravel,], digits = 0),
-              activeconfirm_importednoquarantine = round(f_in_activeupdated_noquarantine[1:inp$durationtravel,], digits=0),
+              activeconfirm_imported = round(f_in_activeupdated_noquarantine[1:inp$durationtravel,], digits=0),
               travelarrival_postquarantine = round(f_in_donequarantine[1:inp$durationtravel,], digits=0),
               travelarrival_prequarantine = round(f_in_prequarantine[1:inp$durationtravel,], digits=0) ) )
 }
