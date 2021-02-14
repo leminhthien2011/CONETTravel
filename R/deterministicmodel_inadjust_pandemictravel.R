@@ -128,7 +128,7 @@ deterministicmodel_inadjust_pandemictravel = function (thetamatrix, inp)
                    compartments)
 
 
-  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedout) +
+  totalduration = inp$durationtravel + max(inp$durationquarantine_adjustedin) +
     inp$durationtravel - 1
 
 
