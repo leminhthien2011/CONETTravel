@@ -1,4 +1,5 @@
-#' This function gives a deterministic realization for 1 country under our local model
+#' This function gives a deterministic realization for 1 country under
+#'  our local model.
 #' @param theta parameter
 #' @param inp is a list include duration : number of days and ini: initial compartments of the country
 #' @return  The average realization of the country during the period

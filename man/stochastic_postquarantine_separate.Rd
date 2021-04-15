@@ -2,9 +2,10 @@
 % Please edit documentation in R/stochastic_postquarantine_separate.R
 \name{stochastic_postquarantine_separate}
 \alias{stochastic_postquarantine_separate}
-\title{This function gives stochastic compartments evolved process during the quarantine period
- for a given parameter and an initial compartments, outputs inlude travelers status done
- quarantine and new active confirmed during the quarantine period}
+\title{This function gives stochastic compartments evolved process during the
+quarantine period.
+Outputs include travelers status done
+ quarantine and new active confirmed during the quarantine period.}
 \usage{
 stochastic_postquarantine_separate(theta, inp)
 }
@@ -17,9 +18,10 @@ stochastic_postquarantine_separate(theta, inp)
 The stochastic status of arrivals compartments after complete quarantine
 }
 \description{
-This function gives stochastic compartments evolved process during the quarantine period
- for a given parameter and an initial compartments, outputs inlude travelers status done
- quarantine and new active confirmed during the quarantine period
+This function gives stochastic compartments evolved process during the
+quarantine period.
+Outputs include travelers status done
+ quarantine and new active confirmed during the quarantine period.
 }
 \examples{
 \dontrun{## Initial Condition

@@ -3,8 +3,8 @@
 %   R/deterministicmodel_inadjusted_trafficregulated_quarantine.R
 \name{deterministicmodel_inadjusted_trafficregulated_quarantine}
 \alias{deterministicmodel_inadjusted_trafficregulated_quarantine}
-\title{This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration that each country required}
+\title{This function gives deterministic realization for n countries with a given
+ regulated strategy and quarantine duration that each country required.}
 \usage{
 deterministicmodel_inadjusted_trafficregulated_quarantine(thetamatrix, inp)
 }
@@ -21,8 +21,8 @@ quarantinerate is the rate people follow quarantine}
 The average realization of n countries with travel data regulated
 }
 \description{
-This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration that each country required
+This function gives deterministic realization for n countries with a given
+ regulated strategy and quarantine duration that each country required.
 }
 \examples{
 \dontrun{

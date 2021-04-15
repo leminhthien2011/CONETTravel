@@ -3,7 +3,7 @@
 \name{betafunc}
 \alias{betafunc}
 \title{This function gives a rough estimation of of the recovered rate beta
- and used to help improve the estimation of beta.}
+ and used to improve the estimation of beta.}
 \usage{
 betafunc(data)
 }
@@ -12,5 +12,5 @@ betafunc(data)
 }
 \description{
 This function gives a rough estimation of of the recovered rate beta
- and used to help improve the estimation of beta.
+ and used to improve the estimation of beta.
 }

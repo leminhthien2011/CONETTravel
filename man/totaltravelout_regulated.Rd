@@ -2,7 +2,8 @@
 % Please edit documentation in R/totaltravelout_regulated.R
 \name{totaltravelout_regulated}
 \alias{totaltravelout_regulated}
-\title{This function gives a list of total travel data allowed from 1 country to another for a given travel policy}
+\title{This function gives a list of total travel data allowed from 1 country to
+another for a given travel policy.}
 \usage{
 totaltravelout_regulated(traveloutdat, policymatrix, P)
 }
@@ -21,7 +22,8 @@ the code itself can take care this fact}
 A list of number travelers can go from 1 country to another each day during the duration
 }
 \description{
-This function gives a list of total travel data allowed from 1 country to another for a given travel policy
+This function gives a list of total travel data allowed from 1 country to
+another for a given travel policy.
 }
 \examples{
 \dontrun{

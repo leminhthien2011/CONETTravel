@@ -1,4 +1,5 @@
-#' thetas_3travel is the corresponding list of thetas truth which generated the data
+#' thetas_3travel is the corresponding list of underlying true thetas which generated the simulated
+#' data sets.
 #' @docType data
 #' @usage data(thetas_3travel)
 #' @format An object of class blablabla

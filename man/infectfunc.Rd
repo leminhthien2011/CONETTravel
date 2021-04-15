@@ -3,7 +3,7 @@
 \name{infectfunc}
 \alias{infectfunc}
 \title{This function estimate number infected in each country for a given data set
- under our model assumption}
+ under our model assumption.}
 \usage{
 infectfunc(data, x)
 }
@@ -14,5 +14,5 @@ infectfunc(data, x)
 }
 \description{
 This function estimate number infected in each country for a given data set
- under our model assumption
+ under our model assumption.
 }

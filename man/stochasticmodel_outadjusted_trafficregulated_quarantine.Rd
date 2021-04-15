@@ -3,8 +3,9 @@
 %   R/stochasticmodel_outadjusted_trafficregulated_quarantine.R
 \name{stochasticmodel_outadjusted_trafficregulated_quarantine}
 \alias{stochasticmodel_outadjusted_trafficregulated_quarantine}
-\title{This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries for each travel out country depends on the situation of the travel out country}
+\title{This function gives deterministic realization for n countries with a given
+regulated strategy and quarantine duration required by the destination countries
+ for each travel out country depends on the situation of the travel out country.}
 \usage{
 stochasticmodel_outadjusted_trafficregulated_quarantine(thetamatrix, inp)
 }
@@ -21,8 +22,9 @@ quarantinerate is the rate people follow quarantine}
 The average realization of n countries with travel data regulated
 }
 \description{
-This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries for each travel out country depends on the situation of the travel out country
+This function gives deterministic realization for n countries with a given
+regulated strategy and quarantine duration required by the destination countries
+ for each travel out country depends on the situation of the travel out country.
 }
 \examples{
 \dontrun{

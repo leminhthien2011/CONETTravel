@@ -2,7 +2,8 @@
 % Please edit documentation in R/stochasticmodel_1country.R
 \name{stochasticmodel_1country}
 \alias{stochasticmodel_1country}
-\title{This gives a stochastic realization for a given parameter and initial condition}
+\title{This function gives a stochastic realization for a given parameter and
+initial condition.}
 \usage{
 stochasticmodel_1country(theta, inp)
 }
@@ -15,7 +16,8 @@ stochasticmodel_1country(theta, inp)
 The average realization of the country during the period
 }
 \description{
-This gives a stochastic realization for a given parameter and initial condition
+This function gives a stochastic realization for a given parameter and
+initial condition.
 }
 \examples{
 \dontrun{## Initial Condition

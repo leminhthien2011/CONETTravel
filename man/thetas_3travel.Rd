@@ -3,7 +3,8 @@
 \docType{data}
 \name{thetas_3travel}
 \alias{thetas_3travel}
-\title{thetas_3travel is the corresponding list of thetas truth which generated the data}
+\title{thetas_3travel is the corresponding list of underlying true thetas which generated the simulated
+data sets.}
 \format{
 An object of class blablabla
 }
@@ -11,7 +12,8 @@ An object of class blablabla
 data(thetas_3travel)
 }
 \description{
-thetas_3travel is the corresponding list of thetas truth which generated the data
+thetas_3travel is the corresponding list of underlying true thetas which generated the simulated
+data sets.
 }
 \examples{
 data(thetas_3travel)

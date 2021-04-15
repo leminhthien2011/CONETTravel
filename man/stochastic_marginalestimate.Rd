@@ -2,7 +2,7 @@
 % Please edit documentation in R/stochastic_marginalestimate.R
 \name{stochastic_marginalestimate}
 \alias{stochastic_marginalestimate}
-\title{This function gives is an marginal estimate of one country under the global model}
+\title{This function helps to perform the marginal estimate for one country under the global model.}
 \usage{
 stochastic_marginalestimate(theta, country)
 }
@@ -16,5 +16,5 @@ total_out each day, and x_ini: initial compartments of the country}
 The realization of the country during the period take into account of travel
 }
 \description{
-This function gives is an marginal estimate of one country under the global model
+This function helps to perform the marginal estimate for one country under the global model.
 }

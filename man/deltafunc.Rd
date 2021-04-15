@@ -2,7 +2,7 @@
 % Please edit documentation in R/deltafunc.R
 \name{deltafunc}
 \alias{deltafunc}
-\title{This function gives a rough estimation of of the death rate dealta
+\title{This function gives a rough estimation of of the death rate delta
  and used to improve the estimation of delta.}
 \usage{
 deltafunc(data)
@@ -11,6 +11,6 @@ deltafunc(data)
 \item{data}{data of A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)}
 }
 \description{
-This function gives a rough estimation of of the death rate dealta
+This function gives a rough estimation of of the death rate delta
  and used to improve the estimation of delta.
 }

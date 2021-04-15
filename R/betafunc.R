@@ -1,5 +1,5 @@
 #' This function gives a rough estimation of of the recovered rate beta
-#'  and used to help improve the estimation of beta.
+#'  and used to improve the estimation of beta.
 #' @param data data of A(active confirmed), R (recovered confirmed),D(confirmed deceased)
 #' @export
 betafunc = function(data){

@@ -2,9 +2,9 @@
 % Please edit documentation in R/deterministic_postquarantine_separate.R
 \name{deterministic_postquarantine_separate}
 \alias{deterministic_postquarantine_separate}
-\title{This function gives deterministic compartments evolved process during the quarantine period
- for a given parameter and an initial compartments, outputs inlude travelers status done
- quarantine and new active confirmed each day during the quarantine period}
+\title{This function gives deterministic compartments of the evolving process during
+ the quarantine period. Outputs include travelers status done
+ quarantine and new active confirmed each day during the quarantine period.}
 \usage{
 deterministic_postquarantine_separate(theta, inp)
 }
@@ -17,9 +17,9 @@ deterministic_postquarantine_separate(theta, inp)
 The average status of arrivals compartments after complete quarantine
 }
 \description{
-This function gives deterministic compartments evolved process during the quarantine period
- for a given parameter and an initial compartments, outputs inlude travelers status done
- quarantine and new active confirmed each day during the quarantine period
+This function gives deterministic compartments of the evolving process during
+ the quarantine period. Outputs include travelers status done
+ quarantine and new active confirmed each day during the quarantine period.
 }
 \examples{
 \dontrun{## Initial Condition

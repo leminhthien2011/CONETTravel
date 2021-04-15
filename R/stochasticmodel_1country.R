@@ -1,4 +1,5 @@
-#' This gives a stochastic realization for a given parameter and initial condition
+#' This function gives a stochastic realization for a given parameter and
+#' initial condition.
 #' @param theta parameter
 #' @param inp is a list include duration : number of days and ini: initial compartments of the country
 #' @return  The average realization of the country during the period

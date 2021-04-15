@@ -5,8 +5,9 @@
 \alias{stochasticmodel_outtheninadjust_pandemictravel}
 \title{This function gives a stochastic realization for n countries with a given regulated
 strategy and quarantine duration required by the destination countries
-for each travel out country depends on the situation of the travel out country
-It also kepps track the number of imported active confirmed each day during the pandemic and traveler status before and after done quarantine.}
+for each travel out country depends on the situation of the travel out country.
+It also kepps track the number of imported active confirmed each day during the
+ pandemic and traveler status before and after done quarantine.}
 \usage{
 stochasticmodel_outtheninadjust_pandemictravel(thetamatrix, inp)
 }
@@ -29,8 +30,9 @@ travelers status before and after quarantine, and active confirm update during t
 \description{
 This function gives a stochastic realization for n countries with a given regulated
 strategy and quarantine duration required by the destination countries
-for each travel out country depends on the situation of the travel out country
-It also kepps track the number of imported active confirmed each day during the pandemic and traveler status before and after done quarantine.
+for each travel out country depends on the situation of the travel out country.
+It also kepps track the number of imported active confirmed each day during the
+ pandemic and traveler status before and after done quarantine.
 }
 \examples{
 \dontrun{

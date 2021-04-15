@@ -2,7 +2,8 @@
 % Please edit documentation in R/recoverfunc.R
 \name{recoverfunc}
 \alias{recoverfunc}
-\title{This function gives the average realization of 1 given country for a given A,R,D sequence}
+\title{This function gives the average realization of 1 given country for a given
+A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased) sequences.}
 \usage{
 recoverfunc(country, theta)
 }
@@ -13,5 +14,6 @@ D(Confirmed Deceased), populationdynamic,and infect}
 \item{theta}{parameter}
 }
 \description{
-This function gives the average realization of 1 given country for a given A,R,D sequence
+This function gives the average realization of 1 given country for a given
+A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased) sequences.
 }

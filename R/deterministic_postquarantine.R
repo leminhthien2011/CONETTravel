@@ -1,4 +1,5 @@
-#' This function gives deterministic compartments after completed quarantine for a given parameter and an initial compartments
+#' This function gives deterministic compartments of travelers status
+#' after completed quarantine.
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
 #' @return  The average status of arrivals compartments after complete quarantine

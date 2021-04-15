@@ -2,7 +2,8 @@
 % Please edit documentation in R/totaltravelout_samerate_regulated.R
 \name{totaltravelout_samerate_regulated}
 \alias{totaltravelout_samerate_regulated}
-\title{This function gives a list of total travel data allowed from 1 country to another for a given in rate}
+\title{This function gives a list of total travel data allowed from 1 country to
+ another for a given in rate.}
 \usage{
 totaltravelout_samerate_regulated(traveloutdat, ratein, P)
 }
@@ -17,7 +18,8 @@ totaltravelout_samerate_regulated(traveloutdat, ratein, P)
 A list of number travelers can go from 1 country to another each day during the duration
 }
 \description{
-This function gives a list of total travel data allowed from 1 country to another for a given in rate
+This function gives a list of total travel data allowed from 1 country to
+ another for a given in rate.
 }
 \examples{
 \dontrun{

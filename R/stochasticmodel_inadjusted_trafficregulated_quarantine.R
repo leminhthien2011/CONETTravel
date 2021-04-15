@@ -1,5 +1,6 @@
 #' This function gives stochastic realization for n countries with a given regulated
-#' strategy and quarantine duration that each destination country required for all other countries entered it's authority
+#' strategy and quarantine duration that each destination country required for
+#'  all other countries entered it's authority.
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
 #'  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,

@@ -1,7 +1,9 @@
-#' This function gives a deterministic realization for n countries with a given regulated
-#' strategy and quarantine duration required by the destination countries
-#' for each travel out country depends on the situation of the travel out country
-#' It also kepps track the number of imported active confirmed cases and traveler status before and after done quarantine.
+#' This function gives a deterministic realization for n countries with a
+#'  given regulated strategy and quarantine duration required
+#'  by the destination countries for each travel out country depends
+#'  on the situation of the travel out country. It also keeps track
+#'   the number of imported active confirmed cases and traveler status
+#'   before and after done quarantine.
 #' @param thetamatrix is a matrix of parameters, parameters of each country is on 1 row
 #' @param inp is a list include durationtravel : durationtravel (days),
 #'  durationquarantine_adjustedout : number of days people travel in have to quarantine based on each country policy,

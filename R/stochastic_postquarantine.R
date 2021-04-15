@@ -1,4 +1,4 @@
-#' This function gives stochastic compartments after completed quarantine for a given parameter and an initial compartments
+#' This function gives stochastic compartments after completed quarantine.
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrivals
 #' @return  The stochastic status of arrivals compartments after complete quarantine

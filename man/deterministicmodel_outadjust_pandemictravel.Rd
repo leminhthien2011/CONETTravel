@@ -2,10 +2,12 @@
 % Please edit documentation in R/deterministicmodel_outadjust_pandemictravel.R
 \name{deterministicmodel_outadjust_pandemictravel}
 \alias{deterministicmodel_outadjust_pandemictravel}
-\title{This function gives a deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries
-for each travel out country depends on the situation of the travel out country
-It also kepps track the number of imported active confirmed cases and traveler status before and after done quarantine.}
+\title{This function gives a deterministic realization for n countries with a
+ given regulated strategy and quarantine duration required
+ by the destination countries for each travel out country depends
+ on the situation of the travel out country. It also keeps track
+  the number of imported active confirmed cases and traveler status
+  before and after done quarantine.}
 \usage{
 deterministicmodel_outadjust_pandemictravel(thetamatrix, inp)
 }
@@ -23,10 +25,12 @@ The average realization of n countries with travel data regulated, also returns
 travelers status before and after quarantine, and active confirm imported updated
 }
 \description{
-This function gives a deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries
-for each travel out country depends on the situation of the travel out country
-It also kepps track the number of imported active confirmed cases and traveler status before and after done quarantine.
+This function gives a deterministic realization for n countries with a
+ given regulated strategy and quarantine duration required
+ by the destination countries for each travel out country depends
+ on the situation of the travel out country. It also keeps track
+  the number of imported active confirmed cases and traveler status
+  before and after done quarantine.
 }
 \examples{
 \dontrun{

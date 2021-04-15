@@ -1,4 +1,5 @@
-#' This function gives a list of total travel data allowed from 1 country to another for a given travel policy
+#' This function gives a list of total travel data allowed from 1 country to
+#' another for a given travel policy.
 #' @param traveloutdat is the data of travel out from each country without pandemic
 #' @param P vector population of countries in order as travel data
 #' @param policymatrix is a where each row is policy travel allow,

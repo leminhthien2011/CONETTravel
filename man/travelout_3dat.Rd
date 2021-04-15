@@ -3,7 +3,10 @@
 \docType{data}
 \name{travelout_3dat}
 \alias{travelout_3dat}
-\title{travelout_3dat is a matrix of total number out from each country during the duration travel}
+\title{travelout_3dat is simulated travel data. The matrix has 84 rows and 3 columns,
+ where each row is the total number daily travel out people from countries 1,2,and 3
+ each column corresponding to 1 country
+ (country 1- column1, country 2 -column 2, and country 3 - column 3).}
 \format{
 An object of class blablabla
 }
@@ -11,7 +14,10 @@ An object of class blablabla
 data(travelout_3dat)
 }
 \description{
-travelout_3dat is a matrix of total number out from each country during the duration travel
+travelout_3dat is simulated travel data. The matrix has 84 rows and 3 columns,
+ where each row is the total number daily travel out people from countries 1,2,and 3
+ each column corresponding to 1 country
+ (country 1- column1, country 2 -column 2, and country 3 - column 3).
 }
 \examples{
 data(travelout_3dat)

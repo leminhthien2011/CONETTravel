@@ -1,6 +1,6 @@
-#' This function gives deterministic compartments evolved process during the quarantine period
-#'  for a given parameter and an initial compartments, outputs inlude travelers status done
-#'  quarantine and new active confirmed each day during the quarantine period
+#' This function gives deterministic compartments of the evolving process during
+#'  the quarantine period. Outputs include travelers status done
+#'  quarantine and new active confirmed each day during the quarantine period.
 #' @param theta parameter
 #' @param inp is a list include durationquarantine : number of days and ini: initial compartments of arrival
 #' @return  The average status of arrivals compartments after complete quarantine

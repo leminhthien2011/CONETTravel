@@ -2,14 +2,14 @@
 % Please edit documentation in R/populationdynamic_func.R
 \name{populationdynamicfunc}
 \alias{populationdynamicfunc}
-\title{This function gives the estimation for the dynamic population}
+\title{This function gives the estimation for the dynamic population.}
 \usage{
 populationdynamicfunc(country)
 }
 \arguments{
-\item{country}{list include total travel in: total_in, total travel out each day:;
+\item{country}{list include total travel in: total_in, total travel out each day,
 total_out, durationtravel, population P}
 }
 \description{
-This function gives the estimation for the dynamic population
+This function gives the estimation for the dynamic population.
 }

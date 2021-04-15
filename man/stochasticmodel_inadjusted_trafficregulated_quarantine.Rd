@@ -4,7 +4,8 @@
 \name{stochasticmodel_inadjusted_trafficregulated_quarantine}
 \alias{stochasticmodel_inadjusted_trafficregulated_quarantine}
 \title{This function gives stochastic realization for n countries with a given regulated
-strategy and quarantine duration that each destination country required for all other countries entered it's authority}
+strategy and quarantine duration that each destination country required for
+ all other countries entered it's authority.}
 \usage{
 stochasticmodel_inadjusted_trafficregulated_quarantine(thetamatrix, inp)
 }
@@ -22,7 +23,8 @@ The stochastic realization of n countries with travel data regulated and quarant
 }
 \description{
 This function gives stochastic realization for n countries with a given regulated
-strategy and quarantine duration that each destination country required for all other countries entered it's authority
+strategy and quarantine duration that each destination country required for
+ all other countries entered it's authority.
 }
 \examples{
 \dontrun{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/stochastic_postquarantine.R
 \name{stochastic_postquarantine}
 \alias{stochastic_postquarantine}
-\title{This function gives stochastic compartments after completed quarantine for a given parameter and an initial compartments}
+\title{This function gives stochastic compartments after completed quarantine.}
 \usage{
 stochastic_postquarantine(theta, inp)
 }
@@ -15,7 +15,7 @@ stochastic_postquarantine(theta, inp)
 The stochastic status of arrivals compartments after complete quarantine
 }
 \description{
-This function gives stochastic compartments after completed quarantine for a given parameter and an initial compartments
+This function gives stochastic compartments after completed quarantine.
 }
 \examples{
 \dontrun{## Initial Condition

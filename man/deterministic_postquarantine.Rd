@@ -2,7 +2,8 @@
 % Please edit documentation in R/deterministic_postquarantine.R
 \name{deterministic_postquarantine}
 \alias{deterministic_postquarantine}
-\title{This function gives deterministic compartments after completed quarantine for a given parameter and an initial compartments}
+\title{This function gives deterministic compartments of travelers status
+after completed quarantine.}
 \usage{
 deterministic_postquarantine(theta, inp)
 }
@@ -15,7 +16,8 @@ deterministic_postquarantine(theta, inp)
 The average status of arrivals compartments after complete quarantine
 }
 \description{
-This function gives deterministic compartments after completed quarantine for a given parameter and an initial compartments
+This function gives deterministic compartments of travelers status
+after completed quarantine.
 }
 \examples{
 \dontrun{## Initial Condition

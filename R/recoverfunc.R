@@ -1,4 +1,5 @@
-#' This function gives the average realization of 1 given country for a given A,R,D sequence
+#' This function gives the average realization of 1 given country for a given
+#' A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased) sequences.
 #' @param country is a list include A (active confirmed), R(Recovered confirmed),
 #'  D(Confirmed Deceased), populationdynamic,and infect
 #' @param theta parameter

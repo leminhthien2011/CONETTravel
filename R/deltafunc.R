@@ -1,4 +1,4 @@
-#' This function gives a rough estimation of of the death rate dealta
+#' This function gives a rough estimation of of the death rate delta
 #'  and used to improve the estimation of delta.
 #' @param data data of A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)
 #' @export

@@ -3,13 +3,16 @@
 %   R/deterministicmodel_outadjusted_trafficregulated_quarantine.R
 \name{deterministicmodel_outadjusted_trafficregulated_quarantine}
 \alias{deterministicmodel_outadjusted_trafficregulated_quarantine}
-\title{This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries for each travel out country depends on the situation of the travel out country}
+\title{This function gives a deterministic realization for n
+countries with a given regulated strategy and quarantine duration
+required by the destination countries for each travel out country
+depends on the situation of the travel out country.}
 \usage{
 deterministicmodel_outadjusted_trafficregulated_quarantine(thetamatrix, inp)
 }
 \arguments{
-\item{thetamatrix}{is a matrix of parameters, parameters of each country is on 1 row}
+\item{thetamatrix}{is a matrix of parameters, parameters of each country
+is on 1 row}
 
 \item{inp}{is a list include durationtravel : durationtravel (days),
  durationquarantine_adjustedin : number of days people travel in have to quarantine based on each country policy,
@@ -21,8 +24,10 @@ quarantinerate is the rate people follow quarantine}
 The average realization of n countries with travel data regulated
 }
 \description{
-This function gives deterministic realization for n countries with a given regulated
-strategy and quarantine duration required by the destination countries for each travel out country depends on the situation of the travel out country
+This function gives a deterministic realization for n
+countries with a given regulated strategy and quarantine duration
+required by the destination countries for each travel out country
+depends on the situation of the travel out country.
 }
 \examples{
 \dontrun{
