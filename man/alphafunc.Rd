@@ -2,16 +2,18 @@
 % Please edit documentation in R/alphafunc.R
 \name{alphafunc}
 \alias{alphafunc}
-\title{This gives estimation of alpha}
+\title{This function gives a rough estimation of of the transmission rate alpha
+ and used to improve the estimation of alpha.}
 \usage{
 alphafunc(data, country)
 }
 \arguments{
-\item{data}{data of A,R,D}
+\item{data}{data of A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)}
 
 \item{country}{a list include betas estimation based on data, infect,
 populationdynamic, travelin_compartments, travelout_compartments}
 }
 \description{
-This gives estimation of alpha
+This function gives a rough estimation of of the transmission rate alpha
+ and used to improve the estimation of alpha.
 }

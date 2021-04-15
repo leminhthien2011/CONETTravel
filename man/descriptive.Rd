@@ -2,7 +2,7 @@
 % Please edit documentation in R/descriptive.R
 \name{descriptive}
 \alias{descriptive}
-\title{This gives descriptive stat as tibble}
+\title{This function gives descriptive stat as the tibble style.}
 \usage{
 descriptive(x)
 }
@@ -10,7 +10,7 @@ descriptive(x)
 \item{x}{numeric vector}
 }
 \description{
-This gives descriptive stat as tibble
+This function gives descriptive stat as the tibble style.
 }
 \examples{
 x = 1:9

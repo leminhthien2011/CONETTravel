@@ -1,4 +1,4 @@
-#' This gives descriptive stat as tibble
+#' This function gives descriptive stat as the tibble style.
 #' @param x numeric vector
 #' @import tibble
 #' @importFrom stats median quantile sd

@@ -2,7 +2,7 @@
 % Please edit documentation in R/hisboxfunc.R
 \name{hisboxfunc}
 \alias{hisboxfunc}
-\title{This gives descriptive stat as tibble}
+\title{This function plots our data in both histogram and boxplot.}
 \usage{
 hisboxfunc(values)
 }
@@ -10,7 +10,7 @@ hisboxfunc(values)
 \item{values}{numeric vector}
 }
 \description{
-This gives descriptive stat as tibble
+This function plots our data in both histogram and boxplot.
 }
 \examples{
 \dontrun{#' x = 1:9

@@ -2,13 +2,15 @@
 % Please edit documentation in R/betafunc.R
 \name{betafunc}
 \alias{betafunc}
-\title{This gives estimation for beta}
+\title{This function gives a rough estimation of of the recovered rate beta
+ and used to help improve the estimation of beta.}
 \usage{
 betafunc(data)
 }
 \arguments{
-\item{data}{data of A,R,D sequence}
+\item{data}{data of A(active confirmed), R (recovered confirmed),D(confirmed deceased)}
 }
 \description{
-This gives estimation for beta
+This function gives a rough estimation of of the recovered rate beta
+ and used to help improve the estimation of beta.
 }

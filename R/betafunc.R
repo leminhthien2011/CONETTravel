@@ -1,5 +1,6 @@
-#' This gives estimation for beta
-#' @param data data of A,R,D sequence
+#' This function gives a rough estimation of of the recovered rate beta
+#'  and used to help improve the estimation of beta.
+#' @param data data of A(active confirmed), R (recovered confirmed),D(confirmed deceased)
 #' @export
 betafunc = function(data){
   drecover_sim = data[,2] - c(0,data[,2][-length(data[,2])])

@@ -2,7 +2,7 @@
 % Please edit documentation in R/traveloutcompfunc.R
 \name{traveloutcompfunc}
 \alias{traveloutcompfunc}
-\title{This gives travel out compartment in 6 categories from 1 country to another}
+\title{This function gives travel out compartment in 6 categories from 1 country to another}
 \usage{
 traveloutcompfunc(total, country)
 }
@@ -12,5 +12,5 @@ traveloutcompfunc(total, country)
 \item{country}{a list include data of A,R,D sequence, population pop, infect}
 }
 \description{
-This gives travel out compartment in 6 categories from 1 country to another
+This function gives travel out compartment in 6 categories from 1 country to another
 }

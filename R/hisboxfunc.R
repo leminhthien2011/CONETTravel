@@ -1,4 +1,4 @@
-#' This gives descriptive stat as tibble
+#' This function plots our data in both histogram and boxplot.
 #' @param values numeric vector
 #' @import cowplot
 #' @examples

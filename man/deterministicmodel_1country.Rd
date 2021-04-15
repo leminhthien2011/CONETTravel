@@ -2,7 +2,7 @@
 % Please edit documentation in R/deterministicmodel_1country.R
 \name{deterministicmodel_1country}
 \alias{deterministicmodel_1country}
-\title{This gives deterministic realization for a given parameter and initial condition}
+\title{This function gives a deterministic realization for 1 country under our local model}
 \usage{
 deterministicmodel_1country(theta, inp)
 }
@@ -15,7 +15,7 @@ deterministicmodel_1country(theta, inp)
 The average realization of the country during the period
 }
 \description{
-This gives deterministic realization for a given parameter and initial condition
+This function gives a deterministic realization for 1 country under our local model
 }
 \examples{
 \dontrun{## Initial Condition

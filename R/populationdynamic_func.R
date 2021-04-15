@@ -1,4 +1,4 @@
-#' This gives estimation for the dynamic population
+#' This function gives the estimation for the dynamic population
 #' @param country list include total travel in: total_in, total travel out each day:;
 #' total_out, durationtravel, population P
 #' @export

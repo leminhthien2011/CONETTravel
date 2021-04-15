@@ -1,5 +1,6 @@
-#' This estimate number infected in each country for a given data
-#' @param data A,R,D sequence each day
+#' This function estimate number infected in each country for a given data set
+#'  under our model assumption
+#' @param data A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)
 #' @param x initial corona
 #' @export
 infectfunc = function(data,x){

@@ -2,7 +2,7 @@
 % Please edit documentation in R/populationdynamic_func.R
 \name{populationdynamicfunc}
 \alias{populationdynamicfunc}
-\title{This gives estimation for the dynamic population}
+\title{This function gives the estimation for the dynamic population}
 \usage{
 populationdynamicfunc(country)
 }
@@ -11,5 +11,5 @@ populationdynamicfunc(country)
 total_out, durationtravel, population P}
 }
 \description{
-This gives estimation for the dynamic population
+This function gives the estimation for the dynamic population
 }

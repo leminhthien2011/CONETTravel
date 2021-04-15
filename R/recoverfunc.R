@@ -1,5 +1,6 @@
-#' This gives the average realization of 1 given country for a given A,R,D sequence
-#' @param country is a list include data of A,R,D, populationdynamic,and infect
+#' This function gives the average realization of 1 given country for a given A,R,D sequence
+#' @param country is a list include A (active confirmed), R(Recovered confirmed),
+#'  D(Confirmed Deceased), populationdynamic,and infect
 #' @param theta parameter
 #' @export
 recoverfunc = function(country, theta){

@@ -1,5 +1,6 @@
-#' This gives estimation of alpha
-#' @param data data of A,R,D
+#' This function gives a rough estimation of of the transmission rate alpha
+#'  and used to improve the estimation of alpha.
+#' @param data data of A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)
 #' @param country a list include betas estimation based on data, infect,
 #' populationdynamic, travelin_compartments, travelout_compartments
 #' @export

@@ -1,5 +1,6 @@
-#' This gives estimation for delta
-#' @param data data of A,R,D sequence
+#' This function gives a rough estimation of of the death rate dealta
+#'  and used to improve the estimation of delta.
+#' @param data data of A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)
 #' @export
 deltafunc = function(data){
   ddeath_sim = data[,3] - c(0,data[,3][-length(data[,3])])

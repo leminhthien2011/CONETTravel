@@ -1,4 +1,4 @@
-#' This gives travel out compartment in 6 categories from 1 country to another
+#' This function gives travel out compartment in 6 categories from 1 country to another
 #' @param total total travelers out
 #' @param country a list include data of A,R,D sequence, population pop, infect
 #' @export

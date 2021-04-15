@@ -2,15 +2,17 @@
 % Please edit documentation in R/infectfunc.R
 \name{infectfunc}
 \alias{infectfunc}
-\title{This estimate number infected in each country for a given data}
+\title{This function estimate number infected in each country for a given data set
+ under our model assumption}
 \usage{
 infectfunc(data, x)
 }
 \arguments{
-\item{data}{A,R,D sequence each day}
+\item{data}{A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)}
 
 \item{x}{initial corona}
 }
 \description{
-This estimate number infected in each country for a given data
+This function estimate number infected in each country for a given data set
+ under our model assumption
 }
