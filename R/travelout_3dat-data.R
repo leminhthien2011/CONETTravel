@@ -7,5 +7,5 @@
 #' @format An object of class blablabla
 #' @keywords datasets
 #' @examples
-#' data(travelout_3dat)
+#' travelout_3dat
 "travelout_3dat"
