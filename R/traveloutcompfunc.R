@@ -5,14 +5,10 @@
 
 traveloutcompfunc = function(total,country)
 {
-
-
   mydat = country$data
   pop = country$pop
   infect = country$infect
-
-
-  #######
+#######
 
   drecover = diff(mydat[,2], differences = 1)
 
