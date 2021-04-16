@@ -3,8 +3,8 @@
 #'  each column corresponding to 1 country
 #'  (country 1- column1, country 2 -column 2, and country 3 - column 3).
 #' @docType data
-#' @usage data(travelout_3dat)
-#' @format An object of class blablabla
+#' @usage travelout_3dat
+#' @format Matrix
 #' @keywords datasets
 #' @examples
 #' travelout_3dat

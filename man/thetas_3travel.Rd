@@ -9,13 +9,13 @@ data sets.}
 An object of class blablabla
 }
 \usage{
-data(thetas_3travel)
+thetas_3travel
 }
 \description{
 thetas_3travel is the corresponding list of underlying true thetas which generated the simulated
 data sets.
 }
 \examples{
-data(thetas_3travel)
+thetas_3travel
 }
 \keyword{datasets}

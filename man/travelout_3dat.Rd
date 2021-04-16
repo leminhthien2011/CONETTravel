@@ -8,10 +8,10 @@
  each column corresponding to 1 country
  (country 1- column1, country 2 -column 2, and country 3 - column 3).}
 \format{
-An object of class blablabla
+Matrix
 }
 \usage{
-data(travelout_3dat)
+travelout_3dat
 }
 \description{
 travelout_3dat is simulated travel data. The matrix has 84 rows and 3 columns,
