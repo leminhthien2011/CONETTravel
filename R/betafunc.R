@@ -1,6 +1,15 @@
 #' This function gives a rough estimation of of the recovered rate beta
 #'  and used to improve the estimation of beta.
 #' @param data data of A(active confirmed), R (recovered confirmed),D(confirmed deceased)
+#' @return  a sequence of estimating values of beta
+#' @examples
+#' \dontrun{
+#' library(CONETTravel)
+#' data = datas_3travel[[1]][,3:5]
+#' betafunc(data)
+#' }
+
+
 #' @export
 betafunc = function(data){
   drecover_sim = data[,2] - c(0,data[,2][-length(data[,2])])

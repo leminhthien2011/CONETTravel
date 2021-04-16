@@ -10,7 +10,17 @@ betafunc(data)
 \arguments{
 \item{data}{data of A(active confirmed), R (recovered confirmed),D(confirmed deceased)}
 }
+\value{
+a sequence of estimating values of beta
+}
 \description{
 This function gives a rough estimation of of the recovered rate beta
  and used to improve the estimation of beta.
+}
+\examples{
+\dontrun{
+library(CONETTravel)
+data = datas_3travel[[1]][,3:5]
+betafunc(data)
+}
 }
