@@ -8,7 +8,7 @@ A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased) sequences.}
 recoverfunc(country, theta)
 }
 \arguments{
-\item{country}{is a list include A (active confirmed), R(Recovered confirmed),
+\item{country}{is a list include a data matrix with A (active confirmed), R(Recovered confirmed),
 D(Confirmed Deceased), populationdynamic,and infect}
 
 \item{theta}{parameter}
