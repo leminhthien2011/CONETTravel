@@ -40,7 +40,7 @@ numberCountries = ncol(traveloutdat)
 Here we ignored the fact that at row 11, 22,...,nn the rate should be 0, since the travel out
 divide in the code already take care the 0 part
 total = nrow(traveloutdat)*numbercountries^2
-policymatrix = matrix(runif(total, 0, 1), ncol = nrow(traveloutdat), nrow = numbercountries^2)
+policy = matrix(runif(total, 0, 1), ncol = nrow(traveloutdat), nrow = numbercountries^2)
 totaltravelout_regulated(traveloutdat, policy, P)
 }
 }
