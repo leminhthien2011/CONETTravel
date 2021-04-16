@@ -1,6 +1,33 @@
 #' This function gives travel out compartment in 6 categories from 1 country to another.
 #' @param total total travelers out
-#' @param country a list include data of A,R,D sequence, population pop, infect
+#' @param country a list include data of A(active confirmed), R(Recovered confirmed),D (confirmed deceased) sequences, the dynamic population pop, infect.
+#' @return  The average realization of the country during the period
+#' @examples
+#' \dontrun{
+#'library(CONETTravel)
+#'library(rlist)
+#'data = datas_3travel[[1]][,3:5]
+#'x = c(9999620, 250,130,0,0,0)
+#'P= sum(x)
+#'durationtravel = 84
+#'w21= travelout_3dat[1,1]/(travelout_3dat[1,1] + travelout_3dat[1,3])
+#'w31= travelout_3dat[1,1]/(travelout_3dat[1,1] + travelout_3dat[1,2])
+#'out21 = travelout_3dat[,2]
+#'out31 = travelout_3dat[,3]
+#'total_in = out21*w21 + out31*w31
+#'total_out = travelout_3dat[,1]
+#'country = list(P=P, total_in =  total_in, total_out= total_out,durationtravel=durationtravel)
+#'populationdynamic = populationdynamicfunc(country)
+#'infect = c(infectfunc(data, x),0)
+#'travelin_compartments = matrix(0,nrow=country$durationtravel,6)
+#'S_in = round(total_in*.97,digits=0)
+#'I_in = round(total_in*.03,digits=0)
+#'travelin_compartments[,1] = S_in
+#'travelin_compartments[,2] = I_in
+#'country =list.append(country,data=data, travelin_compartments = travelin_compartments,
+#'pop=populationdynamic,infect= infect, x_ini = x)
+#'total = total_out
+#'traveloutcompfunc(total, country)}
 #' @export
 
 traveloutcompfunc = function(total,country)
