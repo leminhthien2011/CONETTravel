@@ -1,7 +1,15 @@
 #' This function estimate number infected in each country for a given data set
 #'  under our model assumption.
 #' @param data A (active confirmed), R(Recovered confirmed), D(Confirmed Deceased)
-#' @param x initial corona
+#' @param x six initial states
+#' @return  a sequence of estimating values of delta
+#' @examples
+#' \dontrun{
+#' library(CONETTravel)
+#' data = datas_3travel[[1]][,3:5]
+#' x = c(9999620, 250,130,0,0,0)
+#' infectfunc(data, x)
+#' }
 #' @export
 infectfunc = function(data,x){
   U = t(t(rowSums(data)))
